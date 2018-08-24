@@ -8,6 +8,20 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
   <component name="FUSProjectUsageTrigger">
     <session id="-82465018">
       <usages-collector id="statistics.lifecycle.project">
@@ -24,23 +38,24 @@
         <counts>
           <entry key="cs" value="3" />
           <entry key="txt" value="16" />
+          <entry key="vssettings" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="C#" value="3" />
-          <entry key="PLAIN_TEXT" value="16" />
+          <entry key="PLAIN_TEXT" value="17" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cs" value="510" />
+          <entry key="cs" value="4177" />
           <entry key="txt" value="10" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="C#" value="510" />
+          <entry key="C#" value="4177" />
           <entry key="PLAIN_TEXT" value="10" />
         </counts>
       </usages-collector>
@@ -48,28 +63,34 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://C:/Program Files/Unity/Hub/Editor/2018.2.5f1/Editor/Data/Resources/ScriptTemplates/81-C# Script-NewBehaviourScript.cs.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" selection-start-line="7" selection-end-line="7" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Assets/TextReveal.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" column="59" selection-start-line="12" selection-start-column="59" selection-end-line="12" selection-end-column="59" />
+            <state relative-caret-position="263">
+              <caret line="76" column="73" selection-start-line="76" selection-start-column="73" selection-end-line="76" selection-end-column="73" />
               <folding>
-                <marker date="1535084042193" expanded="true" signature="6:78" ph="..." />
-                <marker date="1535084042193" expanded="true" signature="114:633" ph="{...}" />
-                <marker date="1535084042193" expanded="true" signature="160:631" ph="{...}" />
-                <marker date="1535084042193" expanded="true" signature="259:339" ph="{...}" />
-                <marker date="1535084042193" expanded="true" signature="369:449" ph="{...}" />
-                <marker date="1535084042193" expanded="true" signature="479:625" ph="{...}" />
-                <marker date="1535084042193" expanded="true" signature="514:615" ph="{...}" />
+                <marker date="1535090657825" expanded="true" signature="0:281" ph="/* Author: Adrian Miasik ... */" />
+                <marker date="1535090657825" expanded="true" signature="289:315" ph="..." />
+                <marker date="1535090657825" expanded="true" signature="317:455" ph="TASK LIST" />
+                <marker date="1535090657825" expanded="true" signature="496:3681" ph="{...}" />
+                <marker date="1535090657825" expanded="true" signature="947:1074" ph="{...}" />
+                <marker date="1535090657825" expanded="true" signature="1100:1210" ph="{...}" />
+                <marker date="1535090657825" expanded="true" signature="1125:1204" ph="{...}" />
+                <marker date="1535090657825" expanded="true" signature="1236:1571" ph="{...}" />
+                <marker date="1535090657825" expanded="true" signature="1262:1351" ph="{...}" />
+                <marker date="1535090657825" expanded="true" signature="1376:1465" ph="{...}" />
+                <marker date="1535090657825" expanded="true" signature="1478:1565" ph="{...}" />
+                <marker date="1535090657825" expanded="true" signature="1598:3027" ph="{...}" />
+                <marker date="1535090657825" expanded="true" signature="1860:1949" ph="{...}" />
+                <marker date="1535090657825" expanded="true" signature="2015:2786" ph="{...}" />
+                <marker date="1535090657825" expanded="true" signature="2167:2335" ph="{...}" />
+                <marker date="1535090657825" expanded="true" signature="2352:2776" ph="{...}" />
+                <marker date="1535090657825" expanded="true" signature="2529:2762" ph="{...}" />
+                <marker date="1535090657825" expanded="true" signature="2931:2985" ph="{...}" />
+                <marker date="1535090657825" expanded="true" signature="3033:3103" ph="/// Refreshes the debug UI string ... " />
+                <marker date="1535090657825" expanded="true" signature="3138:3358" ph="{...}" />
+                <marker date="1535090657825" expanded="true" signature="3368:3485" ph="/// Initializes the text reveal by hiding the text and defaulting some variables ... " />
+                <marker date="1535090657825" expanded="true" signature="3525:3679" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -77,8 +98,15 @@
       </file>
     </leaf>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>_text</find>
+      <find>i</find>
+      <find>todo</find>
+    </findStrings>
+  </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/TextMeshPro-Sandbox" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/TextReveal.cs" root0="FORCE_HIGHLIGHTING" />
@@ -89,6 +117,7 @@
         <option value="$PROJECT_DIR$/Assets/NewBehaviourScript.cs" />
         <option value="C:/Program Files/Unity/Hub/Editor/2018.2.5f1/Editor/Data/Resources/ScriptTemplates/81-C# Script-NewBehaviourScript.cs.txt" />
         <option value="$PROJECT_DIR$/Assets/HelloWorld.cs" />
+        <option value="$PROJECT_DIR$/../../Misc/AdrianMiasikVisualStudioColorSettings.vssettings" />
         <option value="$PROJECT_DIR$/Assets/TextReveal.cs" />
       </list>
     </option>
@@ -102,7 +131,7 @@
   <component name="ProjectFrameBounds" extendedState="1">
     <option name="x" value="585" />
     <option name="y" value="199" />
-    <option name="width" value="1400" />
+    <option name="width" value="1798" />
     <option name="height" value="1000" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -115,6 +144,15 @@
         <option name="show-all-files" value="false" />
       </pane>
       <pane id="UnityExplorer">
+        <subPane>
+          <expand>
+            <path>
+              <item name="Project" type="e068e287:UnityExplorerRootNode" />
+              <item name="Packages" type="4e2708dd:PackagesRoot" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
         <option name="show-hidden-items" value="false" />
       </pane>
       <pane id="FileSystemExplorer" />
@@ -123,9 +161,9 @@
   <component name="PropertiesComponent">
     <property name="Rider.DefaultBreakpoints.AreToggled" value="true" />
     <property name="Rider.ProjectViewActivator.IsNotFirstRun" value="true" />
-    <property name="SearchEverywhereHistoryKey" value="plu&#9;ACTION&#9;WelcomeScreen.Plugins&#10;plugging&#9;null&#9;null&#10;hw&#9;null&#9;null&#10;hello&#9;null&#9;null" />
+    <property name="SearchEverywhereHistoryKey" value="colorsch&#9;ACTION&#9;ChangeColorScheme&#10;livetempl&#9;null&#9;null&#10;live templa&#9;ACTION&#9;InsertLiveTemplate&#10;plu&#9;ACTION&#9;WelcomeScreen.Plugins&#10;plugging&#9;null&#9;null&#10;hw&#9;null&#9;null&#10;hello&#9;null&#9;null" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="settings.editor.selected.configurable" value="RiderCSharpLiveTemplatesSettingsId" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.General" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -170,12 +208,12 @@
       <workItem from="1535081293874" duration="112000" />
       <workItem from="1535081433849" duration="195000" />
       <workItem from="1535081674264" duration="890000" />
-      <workItem from="1535083733617" duration="310000" />
+      <workItem from="1535083733617" duration="6775000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1991000" />
+    <option name="totallyTimeSpent" value="8456000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -187,10 +225,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="585" y="199" width="1400" height="1000" extended-state="0" />
+    <frame x="585" y="199" width="1798" height="1000" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18656716" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1438435" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -205,9 +243,9 @@
       <window_info anchor="bottom" id="Version Control" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Unity" order="10" />
       <window_info anchor="bottom" id="Database Changes" order="11" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Unit Tests" order="12" />
+      <window_info anchor="bottom" id="Unit Tests" order="12" sideWeight="0.49850747" weight="0.3290993" />
       <window_info anchor="bottom" id="Terminal" order="13" />
-      <window_info anchor="bottom" id="Event Log" order="14" side_tool="true" />
+      <window_info anchor="bottom" id="Event Log" order="14" sideWeight="0.50149256" side_tool="true" weight="0.33025405" />
       <window_info anchor="bottom" id="Inspection Results" order="15" weight="0.3290993" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -224,6 +262,11 @@
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/TextMeshPro-Sandbox" />
+    </ignored-roots>
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -271,25 +314,47 @@
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/Assets/HelloWorld.cs" />
+    <entry file="file://$PROJECT_DIR$/../../Misc/AdrianMiasikVisualStudioColorSettings.vssettings">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="2908" lean-forward="true" selection-start-column="2908" selection-end-column="2908" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://C:/Program Files/Unity/Hub/Editor/2018.2.5f1/Editor/Data/Resources/ScriptTemplates/81-C# Script-NewBehaviourScript.cs.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
+        <state relative-caret-position="112">
           <caret line="7" selection-start-line="7" selection-end-line="7" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Assets/TextReveal.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="59" selection-start-line="12" selection-start-column="59" selection-end-line="12" selection-end-column="59" />
+        <state relative-caret-position="263">
+          <caret line="76" column="73" selection-start-line="76" selection-start-column="73" selection-end-line="76" selection-end-column="73" />
           <folding>
-            <marker date="1535084042193" expanded="true" signature="6:78" ph="..." />
-            <marker date="1535084042193" expanded="true" signature="114:633" ph="{...}" />
-            <marker date="1535084042193" expanded="true" signature="160:631" ph="{...}" />
-            <marker date="1535084042193" expanded="true" signature="259:339" ph="{...}" />
-            <marker date="1535084042193" expanded="true" signature="369:449" ph="{...}" />
-            <marker date="1535084042193" expanded="true" signature="479:625" ph="{...}" />
-            <marker date="1535084042193" expanded="true" signature="514:615" ph="{...}" />
+            <marker date="1535090657825" expanded="true" signature="0:281" ph="/* Author: Adrian Miasik ... */" />
+            <marker date="1535090657825" expanded="true" signature="289:315" ph="..." />
+            <marker date="1535090657825" expanded="true" signature="317:455" ph="TASK LIST" />
+            <marker date="1535090657825" expanded="true" signature="496:3681" ph="{...}" />
+            <marker date="1535090657825" expanded="true" signature="947:1074" ph="{...}" />
+            <marker date="1535090657825" expanded="true" signature="1100:1210" ph="{...}" />
+            <marker date="1535090657825" expanded="true" signature="1125:1204" ph="{...}" />
+            <marker date="1535090657825" expanded="true" signature="1236:1571" ph="{...}" />
+            <marker date="1535090657825" expanded="true" signature="1262:1351" ph="{...}" />
+            <marker date="1535090657825" expanded="true" signature="1376:1465" ph="{...}" />
+            <marker date="1535090657825" expanded="true" signature="1478:1565" ph="{...}" />
+            <marker date="1535090657825" expanded="true" signature="1598:3027" ph="{...}" />
+            <marker date="1535090657825" expanded="true" signature="1860:1949" ph="{...}" />
+            <marker date="1535090657825" expanded="true" signature="2015:2786" ph="{...}" />
+            <marker date="1535090657825" expanded="true" signature="2167:2335" ph="{...}" />
+            <marker date="1535090657825" expanded="true" signature="2352:2776" ph="{...}" />
+            <marker date="1535090657825" expanded="true" signature="2529:2762" ph="{...}" />
+            <marker date="1535090657825" expanded="true" signature="2931:2985" ph="{...}" />
+            <marker date="1535090657825" expanded="true" signature="3033:3103" ph="/// Refreshes the debug UI string ... " />
+            <marker date="1535090657825" expanded="true" signature="3138:3358" ph="{...}" />
+            <marker date="1535090657825" expanded="true" signature="3368:3485" ph="/// Initializes the text reveal by hiding the text and defaulting some variables ... " />
+            <marker date="1535090657825" expanded="true" signature="3525:3679" ph="{...}" />
           </folding>
         </state>
       </provider>
