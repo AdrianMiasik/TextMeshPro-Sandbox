@@ -8,14 +8,10 @@
 using System;
 using UnityEngine;
 
-#region TASK LIST
-// TODO: Restructure script to support a tiny _delayBetweenCharacterReveal value; Don't be next frame reliant
-#endregion
-
 public class TextReveal : MonoBehaviour
 {
     [SerializeField] private TMPro.TextMeshProUGUI _text;
-    [SerializeField] private TMPro.TextMeshProUGUI _debugText;
+    [SerializeField] private TMPro.TextMeshProUGUI _statistics;
     [SerializeField] private KeyCode _startKey = KeyCode.Space;
     [SerializeField] private float _delayBetweenCharacterReveal = 0.05f;
 
@@ -27,7 +23,7 @@ public class TextReveal : MonoBehaviour
     private void Reset()
     {
         _text = GetComponent<TMPro.TextMeshProUGUI>();
-        _debugText = GetComponent<TMPro.TextMeshProUGUI>();
+        _statistics = GetComponent<TMPro.TextMeshProUGUI>();
     }
 
     private void Awake()
@@ -44,17 +40,35 @@ public class TextReveal : MonoBehaviour
         {
             Debug.LogWarning("No TextMeshProUGUI component found.");
         }
-        if (!_debugText)
+        if (!_statistics)
         {
             Debug.LogWarning("No TextMeshProUGUI component found.");
         }
         else
         {
             InitializeTextReveal();
-            UpdateDebugText();
+            UpdateStatisticsText();
         }
     }
-
+     
+    /// <summary>
+    /// Initializes the text reveal by hiding the text and defaulting some variables
+    /// </summary>
+    private void InitializeTextReveal()
+    {
+        _text.maxVisibleCharacters = 0;
+        _numberOfCharactersRevealed = 0;
+        _numberOfCharacters = _text.textInfo.characterCount;
+    }
+    
+    /// <summary>
+    /// Refreshes the statistics UI string
+    /// </summary>
+    private void UpdateStatisticsText()
+    {
+        _statistics.text = "Number of characters revealed: " + _numberOfCharactersRevealed + "/" + _numberOfCharacters + "\nDelay in-between character reveal: " + _delayBetweenCharacterReveal + " seconds.\n";
+    }
+    
     private void Update()
     {
         // Prevent a negative value from happening
@@ -70,49 +84,26 @@ public class TextReveal : MonoBehaviour
         // If we are text revealing...
         if (_isRevealing)
         {
-            // Reveal text instantly (Essentially support 0 seconds)
-            if (Math.Abs(_delayBetweenCharacterReveal) <= Mathf.Epsilon)
-            {
-                _text.maxVisibleCharacters = _numberOfCharacters;
-                _numberOfCharactersRevealed = _text.maxVisibleCharacters;
-            }
-            else
-            {
-                // Reveal character over time
-                _characterTime += Time.deltaTime;
-                if (_characterTime > _delayBetweenCharacterReveal)
+            _characterTime += Time.deltaTime;
+            
+            // While loop used to calculate how many letters on the same frame needs to be drawn
+            while(_characterTime > _delayBetweenCharacterReveal){       
+                
+                // Reveal a character
+                _text.maxVisibleCharacters = _numberOfCharactersRevealed + 1 % _numberOfCharacters;
+                
+                _numberOfCharactersRevealed++;
+                _characterTime -= _delayBetweenCharacterReveal;
+                          
+                // If all characters are revealed, set the _isRevealing flag as dirty and break out of this while loop 
+                if (_numberOfCharactersRevealed == _numberOfCharacters)
                 {
-                    _text.maxVisibleCharacters = _numberOfCharactersRevealed + 1 % (_numberOfCharacters);
-                    _numberOfCharactersRevealed++;
-                    _characterTime = 0;
+                    _isRevealing = false;
+                    break;
                 }
             }
+            
+            UpdateStatisticsText();
         }
-
-        // If all characters are revealed, set the _isRevealing flag as dirty. 
-        if (_numberOfCharactersRevealed == _numberOfCharacters)
-        {
-            _isRevealing = false;
-        }
-        
-        UpdateDebugText();
-    }
-
-    /// <summary>
-    /// Refreshes the debug UI string
-    /// </summary>
-    private void UpdateDebugText()
-    {
-        _debugText.text = "Number of characters revealed: " + _numberOfCharactersRevealed + "/" + _numberOfCharacters + "\nDelay in-between character reveal: " + _delayBetweenCharacterReveal + " seconds.\n";
-    }
-    
-    /// <summary>
-    /// Initializes the text reveal by hiding the text and defaulting some variables
-    /// </summary>
-    private void InitializeTextReveal()
-    {
-        _text.maxVisibleCharacters = 0;
-        _numberOfCharactersRevealed = 0;
-        _numberOfCharacters = _text.textInfo.characterCount;
     }
 }
