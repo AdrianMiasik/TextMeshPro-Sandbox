@@ -1,5 +1,5 @@
 ﻿// Author: Adrian Miasik
-// Personal Portfolio: https://AdrianMiasik.com
+// Personal Portfolio: http://AdrianMiasik.com
 // Github Account: https://github.com/AdrianMiasik
 
 // Creation Date: 2018-08-24
