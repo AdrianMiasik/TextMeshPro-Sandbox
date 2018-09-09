@@ -38,3 +38,4 @@ sysinfo.txt
 # Rider related files
 .idea/
 Assets/Plugins/Editor/JetBrains/
+Assets/Plugins/Editor/JetBrains.meta
