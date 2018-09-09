@@ -14,7 +14,7 @@ public class CharacterReveal : MonoBehaviour
 	private TMPro.TextMeshProUGUI _text;
 
 	[SerializeField] 
-	[Tooltip("The text we will use to display statistics about this character reveal (Number of characters revealed & the delay in-between each character reveal).")]
+	[Tooltip("The text we will use to display statistics about this character reveal (Number of characters revealed, the delay in-between each character reveal, and the current characters reveal time).")]
 	private TMPro.TextMeshProUGUI _statistics;
 
 	[SerializeField] 
@@ -23,7 +23,7 @@ public class CharacterReveal : MonoBehaviour
 
 	[SerializeField] 
 	[Tooltip("The amount of time (in seconds) between each character reveal.")]
-	private float _delayBetweenCharacterReveal = 0.05f;
+	private float _delayBetweenReveal = 0.05f;
 
 	private bool _isRevealing = false;
 	private float _characterTime = 0f;
@@ -77,13 +77,13 @@ public class CharacterReveal : MonoBehaviour
 	/// </summary>
 	private void UpdateStatisticsText()
 	{
-		_statistics.text = "Number of characters revealed: " + _numberOfCharactersRevealed + "/" + _numberOfCharacters + "\nDelay in-between character reveal: " + _delayBetweenCharacterReveal + " seconds.\n";
+		_statistics.text = "Number of characters revealed: " + _numberOfCharactersRevealed + "/" + _numberOfCharacters + "\nDelay in-between character reveal: " + _delayBetweenReveal + " seconds.\nCurrent character reveal time: " + _characterTime.ToString("F2") + " seconds.";
 	}
 
 	private void Update()
 	{
 		// Prevent a negative value from happening
-		_delayBetweenCharacterReveal = Mathf.Clamp(_delayBetweenCharacterReveal, 0, _delayBetweenCharacterReveal);
+		_delayBetweenReveal = Mathf.Clamp(_delayBetweenReveal, 0, _delayBetweenReveal);
 
 		// Start text reveal on input
 		if (Input.GetKeyDown((_startKey)))
@@ -98,17 +98,18 @@ public class CharacterReveal : MonoBehaviour
 			_characterTime += Time.deltaTime;
 
 			// While loop used to calculate how many letters on the same frame needs to be drawn
-			while (_characterTime > _delayBetweenCharacterReveal)
+			while (_characterTime > _delayBetweenReveal)
 			{
 				// Reveal a character
 				_text.maxVisibleCharacters = _numberOfCharactersRevealed + 1 % _numberOfCharacters;
 
 				_numberOfCharactersRevealed++;
-				_characterTime -= _delayBetweenCharacterReveal;
+				_characterTime -= _delayBetweenReveal;
 
 				// If all characters are revealed, set the _isRevealing flag as dirty and break out of this while loop 
 				if (_numberOfCharactersRevealed == _numberOfCharacters)
 				{
+					_characterTime = 0f;
 					_isRevealing = false;
 					break;
 				}
