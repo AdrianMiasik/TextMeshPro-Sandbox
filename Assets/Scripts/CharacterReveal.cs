@@ -9,10 +9,21 @@ using UnityEngine;
 
 public class CharacterReveal : MonoBehaviour
 {
-	[SerializeField] private TMPro.TextMeshProUGUI _text;
-	[SerializeField] private TMPro.TextMeshProUGUI _statistics;
-	[SerializeField] private KeyCode _startKey = KeyCode.Space;
-	[SerializeField] private float _delayBetweenCharacterReveal = 0.05f;
+	[SerializeField] 
+	[Tooltip("The text we want to reveal.")] 
+	private TMPro.TextMeshProUGUI _text;
+
+	[SerializeField] 
+	[Tooltip("The text we will use to display statistics about this character reveal (Number of characters revealed & the delay in-between each character reveal).")]
+	private TMPro.TextMeshProUGUI _statistics;
+
+	[SerializeField] 
+	[Tooltip("The keycode that starts the reveal. When pressing this key down, the reveal will start.")] 
+	private KeyCode _startKey = KeyCode.Space;
+
+	[SerializeField] 
+	[Tooltip("The amount of time (in seconds) between each character reveal.")]
+	private float _delayBetweenCharacterReveal = 0.05f;
 
 	private bool _isRevealing = false;
 	private float _characterTime = 0f;
@@ -62,7 +73,7 @@ public class CharacterReveal : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Refreshes the statistics UI string
+	/// Updates the statistics UI string
 	/// </summary>
 	private void UpdateStatisticsText()
 	{
