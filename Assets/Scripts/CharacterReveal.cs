@@ -3,7 +3,7 @@
 // Github Account: https://github.com/AdrianMiasik
 
 // Creation Date: 2018-08-24
-// Purpose: Reveals text (TextMeshProUGUI) over time much like a typewriter. There is a delay in-between each character reveal.
+// Purpose: Reveals text characters over time much like a typewriter (Using the TextMeshProUGUI component). There is a delay in-between each character reveal. 
 
 using UnityEngine;
 
