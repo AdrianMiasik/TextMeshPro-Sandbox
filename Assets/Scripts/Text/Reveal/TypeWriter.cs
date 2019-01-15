@@ -2,19 +2,18 @@
 // Personal Portfolio: http://AdrianMiasik.com
 // Github Account: https://github.com/AdrianMiasik
 
-/*
-File Creation Date: (yyyy-mm-dd)
-	2018-08-24
-Purpose:
-	Reveals text characters over time much like a typewriter (Using the TextMeshProUGUI component).
-	There is a delay in-between each character reveal.
-*/
-
 using UnityEngine;
 using TMPro;
+using UnityEngine.Profiling;
 
 namespace Text.Reveal
 {
+	/// <summary>
+	/// Reveals text characters over time much like a typewriter (Using the TextMeshProUGUI component).
+	/// </summary>
+	/// <summary>
+	/// There is a delay in-between each character reveal.
+	/// </summary>
 	public class TypeWriter : MonoBehaviour
 	{
 		[SerializeField] [Tooltip("The text we want to reveal.")]
@@ -36,13 +35,19 @@ namespace Text.Reveal
 
 		private void Reset()
 		{
+			Profiler.BeginSample("TypeWriter.Reset");
+			
 			// Quickly Fetch References.
 			displayText = GetComponent<TextMeshProUGUI>();
 			statistics = GetComponent<TextMeshProUGUI>();
+			
+			Profiler.EndSample();
 		}
 
 		private void Awake()
 		{
+			Profiler.BeginSample("TypeWriter.Awake");
+
 			// If displayText is null...
 			if (displayText == null)
 			{
@@ -57,10 +62,14 @@ namespace Text.Reveal
 				}
 #endif
 			}
+			
+			Profiler.EndSample();
 		}
 
 		private void Start()
 		{
+			Profiler.BeginSample("TypeWriter.Start");
+
 			if (!displayText)
 			{
 				Debug.LogWarning("No TextMeshProUGUI component found.");
@@ -75,6 +84,8 @@ namespace Text.Reveal
 			{
 				Debug.LogWarning("No TextMeshProUGUI component found.");
 			}
+			
+			Profiler.EndSample();
 		}
 
 		/// <summary>
@@ -82,8 +93,12 @@ namespace Text.Reveal
 		/// </summary>
 		public void Reveal()
 		{
+			Profiler.BeginSample("TypeWriter.Reveal");
+			
 			Initialize();
 			Play();
+			
+			Profiler.EndSample();
 		}
 
 		/// <summary>
@@ -91,12 +106,15 @@ namespace Text.Reveal
 		/// </summary>
 		private void Initialize()
 		{
+			Profiler.BeginSample("TypeWriter.Initialize");
+
 			// Hide the text
 			displayText.maxVisibleCharacters = 0;
 			
 			_numberOfCharactersRevealed = 0;
-			//_numberOfCharacters = displayText.textInfo.characterCount; // We are avoiding this because it seems to be a frame late	
 			_numberOfCharacters = displayText.text.Length;	
+			
+			Profiler.EndSample();
 		}
 
 		/// <summary>
@@ -104,17 +122,28 @@ namespace Text.Reveal
 		/// </summary>
 		private void UpdateStatisticsText()
 		{
+			Profiler.BeginSample("TypeWriter.UpdateStatisticsText");
+
 			statistics.text = "Number of characters revealed: " + _numberOfCharactersRevealed + "/" + _numberOfCharacters + "\n" +
 			                  "Delay in-between character reveal: " + delayBetweenReveal + " seconds.\n" +
 			                  "Current character reveal time: " + _characterTime.ToString("F2") + " seconds.";
+			
+			Profiler.EndSample();
 		}
 		
 		/// <summary>
 		/// Starts revealing the characters.
 		/// </summary>
+		/// <summary>
+		/// Note: You might need to initialize this script first.
+		/// </summary>
 		private void Play()
 		{
+			Profiler.BeginSample("TypeWriter.Play");
+			
 			_isRevealing = true;
+			
+			Profiler.EndSample();
 		}
 
 		// TMP INPUT FIELD - Incorrect character length value of the input fields text component:
@@ -133,11 +162,15 @@ namespace Text.Reveal
 		/// <param name="source"></param>
 		public void SetText(TMP_InputField source)
 		{
+			Profiler.BeginSample("TypeWriter.SetText");
 			displayText.text = source.text;
+			Profiler.EndSample();
 		}
 
 		private void Update()
-		{			
+		{
+			Profiler.BeginSample("TypeWriter.Update");
+
 			// Prevent a negative value from being assigned
 			delayBetweenReveal = Mathf.Clamp(delayBetweenReveal, 0, delayBetweenReveal);
 
@@ -155,6 +188,8 @@ namespace Text.Reveal
 				{
 					UpdateStatisticsText();
 
+					Profiler.EndSample();
+					
 					// Early exit
 					return;
 				}
@@ -181,6 +216,8 @@ namespace Text.Reveal
 
 				UpdateStatisticsText();
 			}
+			
+			Profiler.EndSample();
 		}
 	}
 }

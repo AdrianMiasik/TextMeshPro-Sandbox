@@ -2,18 +2,15 @@
 // Personal Portfolio: http://AdrianMiasik.com
 // Github Account: https://github.com/AdrianMiasik
 
-/*
-File Creation Date: (yyyy-mm-dd)
-	2018-09-14
-Purpose:
-	Invokes a buttons OnClick UnityEvent(s) when a keycode is pressed down
-*/
-
 using UnityEngine;
+using UnityEngine.Profiling;
 using UnityEngine.UI;
 
 namespace Text
 {
+	/// <summary>
+	/// Invokes a buttons OnClick UnityEvent(s) when a keycode is pressed down.
+	/// </summary>
 	public class KeycodeButtonOnClick : MonoBehaviour
 	{
 		[SerializeField] private Button button = null;
@@ -21,6 +18,8 @@ namespace Text
 
 		private void Awake()
 		{
+			Profiler.BeginSample("KeycodeButtonOnClick.Awake");
+
 			if (button == null)
 			{
 				Debug.LogAssertion("Button has not been assigned.");
@@ -30,14 +29,20 @@ namespace Text
 			{
 				Debug.LogAssertion("Keycode has not been assigned.");
 			}
+			
+			Profiler.EndSample();
 		}
 
 		private void Update()
 		{
+			Profiler.BeginSample("KeycodeButtonOnClick.Update");
+
 			if (Input.GetKeyDown(buttonKey))
 			{
 				button.onClick.Invoke();
 			}
+			
+			Profiler.EndSample();
 		}
 	}
 }
