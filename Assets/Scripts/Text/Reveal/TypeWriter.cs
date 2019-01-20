@@ -30,9 +30,10 @@ namespace Text.Reveal
 
 		private bool _isRevealing = false;
 		private float _characterTime = 0f;
+		private float _totalRevealTime;
 		private int _numberOfCharacters = 0;
 		private int _numberOfCharactersRevealed;
-
+		
 		private void Reset()
 		{
 			Profiler.BeginSample("TypeWriter.Reset");
@@ -112,7 +113,9 @@ namespace Text.Reveal
 			displayText.maxVisibleCharacters = 0;
 			
 			_numberOfCharactersRevealed = 0;
-			_numberOfCharacters = displayText.text.Length;	
+			_numberOfCharacters = displayText.text.Length;
+
+			_totalRevealTime = 0f;
 			
 			Profiler.EndSample();
 		}
@@ -126,7 +129,8 @@ namespace Text.Reveal
 
 			statistics.text = "Number of characters revealed: " + _numberOfCharactersRevealed + "/" + _numberOfCharacters + "\n" +
 			                  "Delay in-between character reveal: " + delayBetweenReveal + " seconds.\n" +
-			                  "Current character reveal time: " + _characterTime.ToString("F2") + " seconds.";
+			                  "Current character reveal time: " + _characterTime.ToString("F2") + " seconds.\n" +
+			                  "Elapsed time: " + _totalRevealTime.ToString("F2") + " seconds.\n";
 			
 			Profiler.EndSample();
 		}
@@ -177,7 +181,7 @@ namespace Text.Reveal
 			// Start text reveal on input
 			if (Input.GetKeyDown(startKey))
 			{
-				Play();
+				Reveal();
 			}
 
 			// If we are text revealing...
@@ -193,15 +197,19 @@ namespace Text.Reveal
 					// Early exit
 					return;
 				}
-				
+
+				_totalRevealTime += Time.deltaTime;
 				_characterTime += Time.deltaTime;
 
 				// While loop used to calculate how many letters on the same frame needs to be drawn
 				while (_characterTime > delayBetweenReveal)
 				{				
 					// Reveal a character
-					displayText.maxVisibleCharacters = _numberOfCharactersRevealed + 1 % _numberOfCharacters;
+					_numberOfCharactersRevealed++;
+					displayText.maxVisibleCharacters = _numberOfCharactersRevealed;
 
+					_characterTime -= delayBetweenReveal;
+					
 					// If all characters are revealed, set the _isRevealing flag as dirty and break out of this while loop 
 					if (_numberOfCharactersRevealed == _numberOfCharacters)
 					{
@@ -209,11 +217,8 @@ namespace Text.Reveal
 						_isRevealing = false;
 						break;
 					}
-					
-					_numberOfCharactersRevealed++;
-					_characterTime -= delayBetweenReveal;
 				}
-
+				
 				UpdateStatisticsText();
 			}
 			

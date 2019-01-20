@@ -1648,7 +1648,7 @@ MonoBehaviour:
   displayText: {fileID: 1754218259}
   statistics: {fileID: 1659992258}
   startKey: 9
-  delayBetweenReveal: 0.05
+  delayBetweenReveal: 1
 --- !u!4 &1639364316
 Transform:
   m_ObjectHideFlags: 0
