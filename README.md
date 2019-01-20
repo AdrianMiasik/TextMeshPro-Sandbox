@@ -1,4 +1,4 @@
-[Adrian Miasik's Portfolio Site](adrianmiasik.com)
+[Adrian Miasik's Portfolio Site](www.adrianmiasik.com)
 
 # Releases
 [Latest Version](https://github.com/AdrianMiasik/TextMeshPro-Sandbox/releases/tag/0.1.1)
