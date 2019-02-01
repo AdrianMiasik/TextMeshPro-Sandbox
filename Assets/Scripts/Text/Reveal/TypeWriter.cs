@@ -19,7 +19,7 @@ namespace Text.Reveal
 		[SerializeField] [Tooltip("The text we want to reveal.")]
 		private TextMeshProUGUI displayText;
 
-		[SerializeField] [Tooltip("The text we will use to display statistics about this character reveal (Number of characters revealed, the delay in-between each character reveal, and the current characters reveal time).")]
+		[SerializeField] [Tooltip("The text we will use to display statistics about this character reveal (Number of characters revealed, the delay in-between each character reveal, the current characters reveal time, and the total elapsed time).")]
 		private TextMeshProUGUI statistics;
 
 		[SerializeField] [Tooltip("The amount of time (in seconds) between each character reveal.")]
