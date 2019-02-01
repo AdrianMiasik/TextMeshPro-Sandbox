@@ -616,8 +616,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1639364315}
-        m_MethodName: SetText
+      - m_Target: {fileID: 2094617725}
+        m_MethodName: ReplaceStringWithSources
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 727802433}
@@ -627,7 +627,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1639364315}
+      - m_Target: {fileID: 2094617725}
         m_MethodName: Reveal
         m_Mode: 1
         m_Arguments:
@@ -673,7 +673,7 @@ MonoBehaviour:
   m_CaretColor: {r: 1, g: 0.8000001, b: 0.14901961, a: 1}
   m_CustomCaretColor: 1
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
-  m_Text: Testing.
+  m_Text: '[Example Text]'
   m_CaretBlinkRate: 1.2
   m_CaretWidth: 2
   m_ReadOnly: 0
@@ -924,8 +924,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1639364315}
-        m_MethodName: SetText
+      - m_Target: {fileID: 2094617725}
+        m_MethodName: ReplaceStringWithSources
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 727802433}
@@ -935,7 +935,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1639364315}
+      - m_Target: {fileID: 2094617725}
         m_MethodName: Reveal
         m_Mode: 1
         m_Arguments:
@@ -1044,7 +1044,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: "Testing.\u200B"
+  m_text: "[Example Text]\u200B"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1113,10 +1113,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1208470528}
-    characterCount: 9
+    characterCount: 15
     spriteCount: 0
-    spaceCount: 0
-    wordCount: 1
+    spaceCount: 1
+    wordCount: 2
     linkCount: 0
     lineCount: 1
     pageCount: 1
@@ -1626,7 +1626,7 @@ GameObject:
   - component: {fileID: 1639364316}
   - component: {fileID: 1639364315}
   m_Layer: 0
-  m_Name: Character Reveal
+  m_Name: Type Writer Usage Example
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1642,13 +1642,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_GeneratorAsset: {fileID: 0}
-  m_Script: {fileID: 11500000, guid: b387752e3e6ebd940aba95020a07f958, type: 3}
+  m_Script: {fileID: 11500000, guid: a22bceb86590a9d4b95124d89cf6c79d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayText: {fileID: 1754218259}
-  statistics: {fileID: 1659992258}
-  startKey: 9
-  delayBetweenReveal: 1
+  revealKey: 282
+  characterDelay: 0.05
+  typeWriter: {fileID: 2094617725}
 --- !u!4 &1639364316
 Transform:
   m_ObjectHideFlags: 0
@@ -2309,8 +2308,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2094617724}
+  - component: {fileID: 2094617725}
   m_Layer: 5
-  m_Name: Content
+  m_Name: Type Writer Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2340,6 +2340,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -100, y: -100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2094617725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2094617723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_GeneratorAsset: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: b387752e3e6ebd940aba95020a07f958, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayText: {fileID: 1754218259}
+  statistics: {fileID: 1659992258}
+  characterDelay: 0.05
 --- !u!1 &2140351701
 GameObject:
   m_ObjectHideFlags: 0
