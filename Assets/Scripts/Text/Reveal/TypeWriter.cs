@@ -70,7 +70,9 @@ namespace Text.Reveal
 
 			if (!displayText)
 			{
+#if DEBUG_TEXT
 				Debug.LogWarning("No TextMeshProUGUI component found.");
+#endif
 			}
 			else
 			{
@@ -80,7 +82,9 @@ namespace Text.Reveal
 
 			if (!statistics)
 			{
+#if DEBUG_TEXT
 				Debug.LogWarning("No TextMeshProUGUI component found.");
+#endif
 			}
 			
 			Profiler.EndSample();
