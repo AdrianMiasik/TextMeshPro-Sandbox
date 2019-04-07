@@ -2,14 +2,15 @@
 // Personal Portfolio: http://AdrianMiasik.com
 // Github Account: https://github.com/AdrianMiasik
 
+using Text.Reveals.Base;
 using UnityEngine;
 
-namespace Text.Reveal
+namespace Text.Examples
 {
 	/// <summary>
 	/// An example class that demonstrates how to use invoke Reveal functions.
 	/// </summary>
-	public class GenericRevealUsageExample : MonoBehaviour
+	public class TextRevealUsageExample : MonoBehaviour
 	{
 		[SerializeField] [Tooltip("The keycode that starts the reveal. When pressing this key down, the reveal will start.")]
 		private KeyCode revealKey = KeyCode.F1;
@@ -19,7 +20,7 @@ namespace Text.Reveal
 
 		[SerializeField] private TextReveal reveal = null;
 
-		private string message = "This is a test sentence that was passed in by GenericRevealUsageExample.cs";
+		private string message = "This is a test sentence that was passed in by TextRevealUsageExample.cs";
 		
 		// Update is called once per frame
 		void Update()
