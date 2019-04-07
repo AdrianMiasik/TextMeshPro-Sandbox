@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using Text.Reveals.Base;
-using TMPro;
-using Tools;
-using UnityEngine;
+﻿using Tools;
 
 namespace Text.Reveals
 {

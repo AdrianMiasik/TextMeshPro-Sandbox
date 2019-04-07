@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Text.Reveals.Base;
 using TMPro;
-using Tools;
 using UnityEngine;
 
 namespace Text.Reveals
