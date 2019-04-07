@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
 
-namespace Text.Tools
+namespace Tools
 {
-	public class ListUtilities
+	public static class ListUtilities
 	{
-
 		/// <summary>
 		/// Fisher yates shuffle for lists
 		/// </summary>
-		/// <param name="array"></param>
+		/// <param name="list"></param>
+		/// <typeparam name="T"></typeparam>
 		public static void Shuffle<T>(List<T> list)
 		{
 			Random rng = new Random();
