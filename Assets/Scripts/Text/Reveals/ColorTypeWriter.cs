@@ -11,7 +11,8 @@ namespace Text.Reveals
 	/// </summary>
 	/// <summary>
 	/// Color Reveal: Characters are being rendered by TMP but are hidden by changing the alpha of each character mesh to zero.
-	/// The way we are revealing each character is by altering the color of the vertices on the characters mesh. Each character mesh has 4 vertices and we are changing the color32 of each corner at once.
+	/// The way we are revealing each character is by altering the color of the vertices on the characters mesh.
+	/// Each character mesh has 4 vertices and we are changing the color32 of each corner at once.
 	/// </summary>
 	public class ColorTypeWriter : TextReveal
 	{

@@ -11,7 +11,7 @@ namespace Text.Reveals
 	/// </summary>
 	/// <summary>
 	/// Render Reveal: Characters aren't even being displayed by TMP until we tell it to. 
-	/// (This means that the mesh for each character isn't being generated/calculated)
+	/// (This means that the mesh for each character isn't being generated/calculated until told)
 	/// The way we are revealing each character is by incrementing the maxVisibleCharacters int on the TextMeshProUGUI class.
 	/// </summary>
 	public class RenderTypeWriter : TextReveal
