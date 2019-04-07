@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace Text.Reveal
+namespace Text.Reveals.Base
 {
 	public abstract class TextReveal : MonoBehaviour
 	{
@@ -14,11 +14,11 @@ namespace Text.Reveal
 		[SerializeField] [Tooltip("The amount of time (in seconds) between each character reveal.")]
 		private float characterDelay = 0.05f;
 
-		internal bool _isRevealing;
-		internal float _characterTime;
-		internal float _totalRevealTime;
-		internal int _numberOfCharacters = 0;
-		internal int _numberOfCharactersRevealed;
+		private bool _isRevealing;
+		private float _characterTime;
+		private float _totalRevealTime;
+		protected int NumberOfCharacters;
+		protected int NumberOfCharactersRevealed;
 
 		private void Reset()
 		{
@@ -70,7 +70,7 @@ namespace Text.Reveal
 		/// <summary>
 		/// Initialize the text, and starts the character reveal.
 		/// </summary>
-		public virtual void Reveal()
+		public void Reveal()
 		{
 			Initialize();
 			Play();
@@ -80,7 +80,7 @@ namespace Text.Reveal
 		/// Set the text string, initialize the text, and start the character reveal.
 		/// </summary>
 		/// <param name="message"></param>
-		public virtual void Reveal(string message)
+		public void Reveal(string message)
 		{
 			SetTextString(message);
 			Initialize();
@@ -92,14 +92,14 @@ namespace Text.Reveal
 		/// </summary>
 		/// <param name="message"></param>
 		/// <param name="timeBetweenCharacterReveal"></param>
-		public virtual void Reveal(float timeBetweenCharacterReveal, string message)
+		public void Reveal(float timeBetweenCharacterReveal, string message)
 		{
 			SetCharacterDelay(timeBetweenCharacterReveal);
 			Reveal(message);
 		}
 
 		// TMP INPUT FIELD - Incorrect character length value of the input fields text component:
-		// The reason we are doing TMP_InputField instead of getting the TextMeshProUGUI component within the input field component
+		// The reason we are using TMP_InputField instead of getting the TextMeshProUGUI component within the input field component
 		// is because the TextMeshProUGUI text.Length and textInfo.CharacterCount values are incorrect. The text field could be an "empty"
 		// string, but it still seems to provides us with a length of 1. 
 		// According to a Unity Technologies user "Stephan_B" we shouldn't be accessing the input fields text component anyways.
@@ -107,6 +107,7 @@ namespace Text.Reveal
 		// that component, there does seem to be a workaround a Unity forum user named "Chris-Trueman" has found.
 		// Simply trimming the Unicode character 'ZERO WIDTH SPACE' (Code 8203) from the ugui text string does seem to return the correct length.
 		// I've tested Chris' solution and it does seem to work if you need to use it, however for this case I won't be doing that.
+		// Instead I'll just be using TMP_InputField as mentioned above.
 		// SOURCE: https://forum.unity.com/threads/textmesh-pro-ugui-hidden-characters.505493/
 		/// <summary>
 		/// Replaces the text string with the provided source's text string (Using the TextMeshProUGUI component).
@@ -140,8 +141,8 @@ namespace Text.Reveal
 		/// </summary>
 		private void Initialize()
 		{
-			_numberOfCharactersRevealed = 0;
-			_numberOfCharacters = displayText.text.Length;
+			NumberOfCharactersRevealed = 0;
+			NumberOfCharacters = displayText.text.Length;
 			_totalRevealTime = 0f;
 			
 			HideText();
@@ -152,7 +153,7 @@ namespace Text.Reveal
 		/// </summary>
 		private void UpdateStatisticsText()
 		{
-			statistics.text = "Number of characters revealed: " + _numberOfCharactersRevealed + "/" + _numberOfCharacters + "\n" +
+			statistics.text = "Number of characters revealed: " + NumberOfCharactersRevealed + "/" + NumberOfCharacters + "\n" +
 			                  "Delay in-between character reveal: " + characterDelay + " seconds.\n" +
 			                  "Current character reveal time: " + _characterTime.ToString("F2") + " seconds.\n" +
 			                  "Elapsed time: " + _totalRevealTime.ToString("F2") + " seconds.\n";
@@ -169,7 +170,6 @@ namespace Text.Reveal
 			_isRevealing = true;
 		}
 
-
 		private void Update()
 		{
 			// Prevent a negative value from being assigned
@@ -179,7 +179,7 @@ namespace Text.Reveal
 			if (_isRevealing)
 			{
 				// If we don't have anything to reveal...
-				if (_numberOfCharacters == 0)
+				if (NumberOfCharacters == 0)
 				{
 					UpdateStatisticsText();
 
@@ -193,13 +193,13 @@ namespace Text.Reveal
 				// While loop used to calculate how many letters on the same frame needs to be drawn
 				while (_characterTime > characterDelay)
 				{
-					_numberOfCharactersRevealed++;
+					NumberOfCharactersRevealed++;
 					CharacterReveal();
 
 					_characterTime -= characterDelay;
 
 					// If all characters are revealed, set the _isRevealing flag as dirty and break out of this while loop 
-					if (_numberOfCharactersRevealed == _numberOfCharacters)
+					if (NumberOfCharactersRevealed == NumberOfCharacters)
 					{
 						_characterTime = 0f;
 						_isRevealing = false;

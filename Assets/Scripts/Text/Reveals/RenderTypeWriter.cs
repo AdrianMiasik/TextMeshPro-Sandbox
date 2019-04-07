@@ -2,19 +2,19 @@
 // Personal Portfolio: http://AdrianMiasik.com
 // Github Account: https://github.com/AdrianMiasik
 
-using UnityEngine;
-using TMPro;
-using UnityEngine.Profiling;
+using Text.Reveals.Base;
 
-namespace Text.Reveal
+namespace Text.Reveals
 {
 	/// <summary>
 	/// Reveals text characters over time much like a typewriter (Using the TextMeshProUGUI component).
 	/// </summary>
 	/// <summary>
-	/// There is a delay in-between each character reveal.
+	/// Render Reveal: Characters aren't even being displayed by TMP until we tell it to. 
+	/// (This means that the mesh for each character isn't being generated/calculated)
+	/// The way we are revealing each character is by incrementing the maxVisibleCharacters int on the TextMeshProUGUI class.
 	/// </summary>
-	public class TypeWriter : TextReveal
+	public class RenderTypeWriter : TextReveal
 	{
 		/// <summary>
 		/// Hides the text by not rendering any of the character
@@ -28,7 +28,7 @@ namespace Text.Reveal
 		protected override void CharacterReveal()
 		{
 			// Reveal a character
-			displayText.maxVisibleCharacters = _numberOfCharactersRevealed;
+			displayText.maxVisibleCharacters = NumberOfCharactersRevealed;
 		}
 	}
 }
