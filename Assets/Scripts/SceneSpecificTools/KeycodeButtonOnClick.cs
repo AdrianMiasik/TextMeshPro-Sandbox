@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Profiling;
 using UnityEngine.UI;
 
-namespace Text
+namespace SceneSpecificTools
 {
 	/// <summary>
 	/// Invokes a buttons OnClick UnityEvent(s) when a keycode is pressed down.
