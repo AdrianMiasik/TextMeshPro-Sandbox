@@ -68,12 +68,15 @@ namespace Text.Reveals
 		protected override void CharacterReveal()
 		{	    
 			if (_characters.Count > 0)
-			{   
+			{
+				int vertexIndex = _characters[0].vertexIndex;
+				
+				// Revert the color of this character back to it's previous color.
 				// Bottom Left, Top Left, Top Right, Bottom Right
-				displayText.textInfo.meshInfo[0].colors32[_characters[0].vertexIndex + 0] = _cachedColor;
-				displayText.textInfo.meshInfo[0].colors32[_characters[0].vertexIndex + 1] = _cachedColor;
-				displayText.textInfo.meshInfo[0].colors32[_characters[0].vertexIndex + 2] = _cachedColor;
-				displayText.textInfo.meshInfo[0].colors32[_characters[0].vertexIndex + 3] = _cachedColor;
+				displayText.textInfo.meshInfo[0].colors32[vertexIndex + 0] = _cachedColor;
+				displayText.textInfo.meshInfo[0].colors32[vertexIndex + 1] = _cachedColor;
+				displayText.textInfo.meshInfo[0].colors32[vertexIndex + 2] = _cachedColor;
+				displayText.textInfo.meshInfo[0].colors32[vertexIndex + 3] = _cachedColor;
 
 				// Mark this character as visible
 				// TODO: Investigate the isVisible variable and see how TMP is using it
@@ -94,7 +97,7 @@ namespace Text.Reveals
 			List<TMP_CharacterInfo> invisibleCharacters = new List<TMP_CharacterInfo>();
 
 			// Iterate through each character
-			for (var i = 0; i <= text.textInfo.characterCount - 1; i++)
+			for (var i = 0; i < text.textInfo.characterCount; i++)
 			{
 				// Get each character that isn't visible
 				if (!text.textInfo.characterInfo[i].isVisible)
