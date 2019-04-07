@@ -24,6 +24,11 @@ namespace Text.Reveals
 		protected override void HideText()
 		{
 			// Force the mesh update so we don't have to wait a frame to get the data.
+			// Since we need to get information from the mesh we will have to update the mesh a bit earlier than normal.
+			// "TMP generates/processes the mesh once per frame (if needed) just before Unity renders the frame."
+			// Source: https://www.youtube.com/watch?v=ZHU3AcyDKik&feature=youtu.be&t=164
+			// In most cases it's fine for TMP to render at it's normal timings but as mentioned above if we are going
+			// to manipulate or fetch data from the mesh we should force the mesh to update so the data remains accurate.
 			displayText.ForceMeshUpdate();
 
 			_cachedColor = displayText.color;
