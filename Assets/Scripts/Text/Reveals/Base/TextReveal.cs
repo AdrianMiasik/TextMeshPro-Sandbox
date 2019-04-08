@@ -15,7 +15,6 @@ namespace Text.Reveals.Base
 		[SerializeField] [Tooltip("The amount of time (in seconds) between each character reveal.")]
 		private float characterDelay = 0.05f;
 
-		[SerializeField] protected List<MeshEffect> Effects = new List<MeshEffect>();
 		// A list that contains all the effects for this text reveal.
 		[SerializeField] protected List<Character> CharacterEffects = new List<Character>();
 
