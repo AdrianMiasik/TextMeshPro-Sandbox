@@ -25,10 +25,15 @@ namespace Text.Reveals
 			displayText.maxVisibleCharacters = 0;
 		}
 
-		protected override void CharacterReveal()
+		protected override void CharacterReveal(int characterIndex)
 		{
 			// Reveal a character
-			displayText.maxVisibleCharacters = NumberOfCharactersRevealed;
+			displayText.maxVisibleCharacters = characterIndex + 1;
+		}
+
+		protected override void EffectsTick()
+		{
+			// Optional
 		}
 	}
 }

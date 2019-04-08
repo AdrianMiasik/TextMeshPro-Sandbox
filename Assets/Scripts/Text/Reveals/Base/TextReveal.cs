@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -13,6 +14,10 @@ namespace Text.Reveals.Base
 
 		[SerializeField] [Tooltip("The amount of time (in seconds) between each character reveal.")]
 		private float characterDelay = 0.05f;
+
+		[SerializeField] protected List<MeshEffect> Effects = new List<MeshEffect>();
+		// A list that contains all the effects for this text reveal.
+		[SerializeField] protected List<Character> CharacterEffects = new List<Character>();
 
 		private bool _isRevealing;
 		private float _characterTime;
@@ -175,9 +180,17 @@ namespace Text.Reveals.Base
 			// Prevent a negative value from being assigned
 			characterDelay = Mathf.Clamp(characterDelay, 0, characterDelay);
 
+			// Note: Character effects are independent from reveals and therefore can last longer than reveals.
+			// TODO: Check if effect is active and once played once stop its activity
+			if (CharacterEffects.Count > 0)
+			{
+				EffectsTick();
+			}
+			
 			// If we are text revealing...
 			if (_isRevealing)
 			{
+				
 				// If we don't have anything to reveal...
 				if (NumberOfCharacters == 0)
 				{
@@ -193,8 +206,8 @@ namespace Text.Reveals.Base
 				// While loop used to calculate how many letters on the same frame needs to be drawn
 				while (_characterTime > characterDelay)
 				{
+					CharacterReveal(NumberOfCharactersRevealed);
 					NumberOfCharactersRevealed++;
-					CharacterReveal();
 
 					_characterTime -= characterDelay;
 
@@ -212,6 +225,7 @@ namespace Text.Reveals.Base
 		}
 
 		protected abstract void HideText();
-		protected abstract void CharacterReveal();
+		protected abstract void CharacterReveal(int characterIndex);
+		protected abstract void EffectsTick();
 	}
 }

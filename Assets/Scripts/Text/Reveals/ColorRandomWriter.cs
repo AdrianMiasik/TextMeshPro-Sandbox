@@ -1,4 +1,5 @@
-﻿using Tools;
+﻿using TMPro;
+using Tools;
 
 namespace Text.Reveals
 {
@@ -18,7 +19,7 @@ namespace Text.Reveals
 		{
 			base.GetCharacters();
 
-			// Shuffle the characters that aren't visible
+			// Shuffle the characters
 			ListUtilities.Shuffle(_characters);
 		}
 	}
