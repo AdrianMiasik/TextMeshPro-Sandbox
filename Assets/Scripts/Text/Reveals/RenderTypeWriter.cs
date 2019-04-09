@@ -3,6 +3,7 @@
 // Github Account: https://github.com/AdrianMiasik
 
 using Text.Reveals.Base;
+using TMPro;
 
 namespace Text.Reveals
 {

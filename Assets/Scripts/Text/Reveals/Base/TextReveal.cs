@@ -14,9 +14,10 @@ namespace Text.Reveals.Base
 
 		[SerializeField] [Tooltip("The amount of time (in seconds) between each character reveal.")]
 		private float characterDelay = 0.05f;
-
-		// A list that contains all the effects for this text reveal.
-		[SerializeField] protected List<Character> CharacterEffects = new List<Character>();
+		
+		// A list that contains all the characters in this reveal
+		protected List<Character> _characters = new List<Character>();
+		protected TMP_MeshInfo[] cachedVertexData;
 
 		private bool _isRevealing;
 		private float _characterTime;
@@ -148,7 +149,19 @@ namespace Text.Reveals.Base
 			NumberOfCharactersRevealed = 0;
 			NumberOfCharacters = displayText.text.Length;
 			_totalRevealTime = 0f;
-			
+
+			// Force the mesh update so we don't have to wait a frame to get the data.
+			// Since we need to get information from the mesh we will have to update the mesh a bit earlier than normal.
+			// "TMP generates/processes the mesh once per frame (if needed) just before Unity renders the frame."
+			// Source: https://www.youtube.com/watch?v=ZHU3AcyDKik&feature=youtu.be&t=164
+			// In most cases it's fine for TMP to render at it's normal timings but as mentioned above if we are going
+			// to manipulate or fetch data from the mesh we should force the mesh to update so the data remains accurate.
+			displayText.ForceMeshUpdate();
+
+			// Cache mesh data for later...
+			// TODO: better comment
+			cachedVertexData = displayText.textInfo.CopyMeshInfoVertexData();
+
 			HideText();
 		}
 
@@ -174,17 +187,13 @@ namespace Text.Reveals.Base
 			_isRevealing = true;
 		}
 
+		
 		private void Update()
 		{
 			// Prevent a negative value from being assigned
 			characterDelay = Mathf.Clamp(characterDelay, 0, characterDelay);
 
-			// Note: Character effects are independent from reveals and therefore can last longer than reveals.
-			// TODO: Check if effect is active and once played once stop its activity
-			if (CharacterEffects.Count > 0)
-			{
-				EffectsTick();
-			}
+			EffectsTick();
 			
 			// If we are text revealing...
 			if (_isRevealing)

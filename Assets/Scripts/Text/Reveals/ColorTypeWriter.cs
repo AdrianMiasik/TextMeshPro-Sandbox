@@ -15,27 +15,18 @@ namespace Text.Reveals
 	/// </summary>
 	public class ColorTypeWriter : TextReveal
 	{
-		protected List<Character> _characters = new List<Character>();
 		private Color32 _cachedColor;
-	
+			
 		/// <summary>
 		/// Hides the text by getting each characters mesh and setting the alpha of each vertex to zero rendering it invisible.
 		/// </summary>
 		protected override void HideText()
 		{
-			// Force the mesh update so we don't have to wait a frame to get the data.
-			// Since we need to get information from the mesh we will have to update the mesh a bit earlier than normal.
-			// "TMP generates/processes the mesh once per frame (if needed) just before Unity renders the frame."
-			// Source: https://www.youtube.com/watch?v=ZHU3AcyDKik&feature=youtu.be&t=164
-			// In most cases it's fine for TMP to render at it's normal timings but as mentioned above if we are going
-			// to manipulate or fetch data from the mesh we should force the mesh to update so the data remains accurate.
-			displayText.ForceMeshUpdate();
-
 			_cachedColor = displayText.color;
 			
 			// TODO: When we are hiding our text, we shouldn't need to always need to fetch our characters unless we are definitely going to reveal later.
 			GetCharacters();
-		
+			
 			// Iterate through each character
 			for (var i = 0; i < displayText.textInfo.characterCount; i++)
 			{
@@ -54,14 +45,14 @@ namespace Text.Reveals
 			for (var i = 0; i < displayText.textInfo.characterCount; i++)
 			{				
 				// Create a character class for each character
-				_characters.Add(new Character(displayText.textInfo.meshInfo[0], displayText.textInfo.characterInfo[i], _cachedColor));
+				_characters.Add(new Character(displayText.textInfo, i, _cachedColor));
 			}
 		}
 
 		protected override void CharacterReveal(int characterIndex)
 		{	    			
 			// Tell the character at a certain index to reveal itself.
-			_characters[characterIndex].Reveal(_cachedColor);
+			_characters[characterIndex].Show(_cachedColor);
 							
 			// Refresh data to render correctly
 			displayText.UpdateVertexData();
@@ -69,7 +60,18 @@ namespace Text.Reveals
 
 		protected override void EffectsTick()
 		{
-			
+			for (int i = 0; i < 3; i++)
+			{
+				_characters[i].Scale(cachedVertexData, displayText.textInfo, 1.5f);
+			}
+
+			for (int i = 0; i < displayText.textInfo.meshInfo.Length; i++)
+			{
+				displayText.textInfo.meshInfo[i].mesh.vertices = displayText.textInfo.meshInfo[i].vertices;
+				displayText.textInfo.meshInfo[i].mesh.uv = displayText.textInfo.meshInfo[i].uvs0;
+				
+				displayText.UpdateGeometry(displayText.textInfo.meshInfo[i].mesh, i);
+			}
 		}
 	}
 }

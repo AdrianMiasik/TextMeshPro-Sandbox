@@ -2453,27 +2453,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b387752e3e6ebd940aba95020a07f958, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  asd: 0
   displayText: {fileID: 1754218259}
   statistics: {fileID: 1659992258}
   characterDelay: 0.05
-  Effects: []
+  scaleTest: {fileID: 0}
 --- !u!114 &2094617726
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2094617723}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dda6b34e8933a494caec694f7935eb00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  displayText: {fileID: 1754218259}
-  statistics: {fileID: 1659992258}
-  characterDelay: 0.05
-  Effects: []
---- !u!114 &2094617727
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2482,13 +2467,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 2094617723}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0cfa802cf20487eb0930b0985bbffb7, type: 3}
+  m_Script: {fileID: 11500000, guid: dda6b34e8933a494caec694f7935eb00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  asd: 0
   displayText: {fileID: 1754218259}
   statistics: {fileID: 1659992258}
   characterDelay: 0.05
-  Effects: []
+  scaleTest: {fileID: 0}
+--- !u!114 &2094617727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2094617723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0cfa802cf20487eb0930b0985bbffb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  asd: 0
+  displayText: {fileID: 1754218259}
+  statistics: {fileID: 1659992258}
+  characterDelay: 0.1
+  scaleTest: {fileID: 0}
 --- !u!114 &2094617728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2501,7 +2504,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d70b35d3e9abec44f800e2f87c8d26f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TextReveal: {fileID: 2094617726}
+  TextReveal: {fileID: 2094617727}
 --- !u!1 &2140351701
 GameObject:
   m_ObjectHideFlags: 0

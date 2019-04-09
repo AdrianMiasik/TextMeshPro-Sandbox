@@ -8,58 +8,75 @@ namespace Text
 		// TODO: Don't give ownership of the parent mesh to each character.
 		// This will give us headaches in the future. We want one place where 
 		// the mesh is being controlled by, not one access point per character.
-		private TMP_MeshInfo parentMesh;
+		private readonly TMP_MeshInfo _parentMesh;
 		
-		private TMP_CharacterInfo characterInfo;
-		private int vertexIndex;
-		private Color32 cachedColor;
-		private Color32 invisible;
+		private TMP_CharacterInfo _characterInfo;
+		private readonly int _vertexIndex;
+		private readonly Color32 _invisible;
 		
-		private bool IsEffectActive;
-		private bool IsRevealed;
+		public bool IsEffectActive;
+		public bool IsRevealed;
 
-		public Character(TMP_MeshInfo mesh, TMP_CharacterInfo charInfo, Color32 currentColor)
+		public Character(TMP_TextInfo meshInfo, int characterIndex, Color32 currentColor)
 		{
-			parentMesh = mesh;
-			characterInfo = charInfo;
-			vertexIndex = characterInfo.vertexIndex;
-			cachedColor = currentColor;
-			
-			invisible = cachedColor;
-			invisible.a = 0;
+			_parentMesh = meshInfo.meshInfo[0];
+			_characterInfo = meshInfo.characterInfo[characterIndex];
+			_vertexIndex = _characterInfo.vertexIndex;
+
+			_invisible = currentColor;
+			_invisible.a = 0;
 		}
 
 		public void Hide()
 		{
-			Color(invisible);
+			Color(_invisible);
 
 			// TODO: Investigate the isVisible variable and see how TMP is using it
-			characterInfo.isVisible = false;
+			_characterInfo.isVisible = false;
 			IsRevealed = false;
 
 //			Debug.Log("Hiding character: " + characterInfo.character);
-
-			IsEffectActive = false;
 		}
 		
-		public void Reveal(Color32 color)
+		public void Show(Color32 color)
 		{
 			Color(color);
 			
 			// TODO: Investigate the isVisible variable and see how TMP is using it
-			characterInfo.isVisible = true;
+			_characterInfo.isVisible = true;
 			IsRevealed = true;
 			
 //			Debug.Log("Revealing character: " + characterInfo.character);
-
-			// If our characters effect is not active...
-			if (!IsEffectActive)
-			{
-				// Allow the effect to play
-				IsEffectActive = true;
-			}
 		}
 
+		public void Scale(TMP_MeshInfo[] vertInfo, TMP_TextInfo textInfo, float scale)
+		{
+			int materialIndex = _characterInfo.materialReferenceIndex;
+			Vector3[] originalVertices = vertInfo[materialIndex].vertices;
+			
+			// (Bottom left + top right) divided by 2 = center of mesh
+			Vector3 characterOrigin = (originalVertices[_vertexIndex + 0] + originalVertices[_vertexIndex + 2]) / 2;
+			
+			Vector3[] targetVertices = textInfo.meshInfo[materialIndex].vertices;
+
+			targetVertices[_vertexIndex + 0] = originalVertices[_vertexIndex + 0] - characterOrigin;
+			targetVertices[_vertexIndex + 1] = originalVertices[_vertexIndex + 1] - characterOrigin;
+			targetVertices[_vertexIndex + 2] = originalVertices[_vertexIndex + 2] - characterOrigin;
+			targetVertices[_vertexIndex + 3] = originalVertices[_vertexIndex + 3] - characterOrigin;
+
+			Matrix4x4 matrix = Matrix4x4.Scale(Vector3.one * scale);
+
+			targetVertices[_vertexIndex + 0] = matrix.MultiplyPoint3x4(targetVertices[_vertexIndex + 0]);
+			targetVertices[_vertexIndex + 1] = matrix.MultiplyPoint3x4(targetVertices[_vertexIndex + 1]);
+			targetVertices[_vertexIndex + 2] = matrix.MultiplyPoint3x4(targetVertices[_vertexIndex + 2]);
+			targetVertices[_vertexIndex + 3] = matrix.MultiplyPoint3x4(targetVertices[_vertexIndex + 3]);
+
+			targetVertices[_vertexIndex + 1] += characterOrigin;
+			targetVertices[_vertexIndex + 2] += characterOrigin;
+			targetVertices[_vertexIndex + 0] += characterOrigin;
+			targetVertices[_vertexIndex + 3] += characterOrigin;
+		}
+		
 		/// <summary>
 		/// Changes the color of this character.
 		/// </summary>
@@ -70,16 +87,16 @@ namespace Text
 		private void Color(Color32 color)
 		{			
 			// Bottom Left
-			parentMesh.colors32[vertexIndex + 0] = color;
+			_parentMesh.colors32[_vertexIndex + 0] = color;
 			
 			// Top Left
-			parentMesh.colors32[vertexIndex + 1] = color;
+			_parentMesh.colors32[_vertexIndex + 1] = color;
 
 			// Top Right
-			parentMesh.colors32[vertexIndex + 2] = color;
+			_parentMesh.colors32[_vertexIndex + 2] = color;
 			
 			// Bottom Right
-			parentMesh.colors32[vertexIndex + 3] = color;
+			_parentMesh.colors32[_vertexIndex + 3] = color;
 		}
 	}
 }
