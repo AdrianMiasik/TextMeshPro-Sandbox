@@ -14,11 +14,9 @@ namespace Text.Reveals.Base
 
 		[SerializeField] [Tooltip("The amount of time (in seconds) between each character reveal.")]
 		private float characterDelay = 0.05f;
-		
-		// A list that contains all the characters in this reveal
-		protected List<Character> _characters = new List<Character>();
-		protected TMP_MeshInfo[] cachedVertexData;
 
+		protected Color32 CachedColor;
+		
 		private bool _isRevealing;
 		private float _characterTime;
 		private float _totalRevealTime;
@@ -158,11 +156,9 @@ namespace Text.Reveals.Base
 			// to manipulate or fetch data from the mesh we should force the mesh to update so the data remains accurate.
 			displayText.ForceMeshUpdate();
 
-			// Cache mesh data for later...
-			// TODO: better comment
-			cachedVertexData = displayText.textInfo.CopyMeshInfoVertexData();
-
-			HideText();
+			CachedColor = displayText.color;
+				
+			HideAllCharacters();
 		}
 
 		/// <summary>
@@ -186,14 +182,11 @@ namespace Text.Reveals.Base
 		{
 			_isRevealing = true;
 		}
-
 		
 		private void Update()
 		{
 			// Prevent a negative value from being assigned
 			characterDelay = Mathf.Clamp(characterDelay, 0, characterDelay);
-
-			EffectsTick();
 			
 			// If we are text revealing...
 			if (_isRevealing)
@@ -214,7 +207,7 @@ namespace Text.Reveals.Base
 				// While loop used to calculate how many letters on the same frame needs to be drawn
 				while (_characterTime > characterDelay)
 				{
-					CharacterReveal(NumberOfCharactersRevealed);
+					RevealCharacter(NumberOfCharactersRevealed);
 					NumberOfCharactersRevealed++;
 
 					_characterTime -= characterDelay;
@@ -231,9 +224,45 @@ namespace Text.Reveals.Base
 				UpdateStatisticsText();
 			}
 		}
+		
+		protected abstract void RevealCharacter(int whichCharacterIndex);
+		protected abstract void HideAllCharacters();
 
-		protected abstract void HideText();
-		protected abstract void CharacterReveal(int characterIndex);
-		protected abstract void EffectsTick();
+		public void ScaleCharacter(TMP_CharacterInfo character, float scale)
+		{
+			// Skip any characters that aren't visible
+			if (!character.isVisible)
+				return;
+			
+			// Get the characters material vertices from the texts mesh
+			Vector3[] originalVertices = displayText.textInfo.meshInfo[character.materialReferenceIndex].vertices;
+			
+			// Make a copy of those verts
+			Vector3[] targetVertices = originalVertices;
+
+			int index = character.vertexIndex;
+			
+			// Locate the center of the mesh (Bottom left + top right) / 2
+			Vector3 characterOrigin = (originalVertices[index + 0] + originalVertices[index + 2]) / 2;
+
+			// Subtract the center of the mesh from target verts
+			targetVertices[index + 0] -= characterOrigin;
+			targetVertices[index + 1] -= characterOrigin;
+			targetVertices[index + 2] -= characterOrigin;
+			targetVertices[index + 3] -= characterOrigin;
+
+			// Scale the mesh of this character by our factor
+			Matrix4x4 matrix = Matrix4x4.Scale(Vector3.one * scale);
+			targetVertices[index + 0] = matrix.MultiplyPoint3x4(targetVertices[index + 0]);
+			targetVertices[index + 1] = matrix.MultiplyPoint3x4(targetVertices[index + 1]);
+			targetVertices[index + 2] = matrix.MultiplyPoint3x4(targetVertices[index + 2]);
+			targetVertices[index + 3] = matrix.MultiplyPoint3x4(targetVertices[index + 3]);
+
+			// Re-add the center of the mesh 
+			targetVertices[index + 1] += characterOrigin;
+			targetVertices[index + 2] += characterOrigin;
+			targetVertices[index + 0] += characterOrigin;
+			targetVertices[index + 3] += characterOrigin;
+		}
 	}
 }

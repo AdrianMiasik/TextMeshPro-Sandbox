@@ -20,21 +20,16 @@ namespace Text.Reveals
 		/// <summary>
 		/// Hides the text by not rendering any of the character
 		/// </summary>
-		protected override void HideText()
+		protected override void HideAllCharacters()
 		{
 			// Hide the text
 			displayText.maxVisibleCharacters = 0;
 		}
 
-		protected override void CharacterReveal(int characterIndex)
+		protected override void RevealCharacter(int characterIndex)
 		{
 			// Reveal a character
 			displayText.maxVisibleCharacters = characterIndex + 1;
-		}
-
-		protected override void EffectsTick()
-		{
-			// Optional
 		}
 	}
 }
