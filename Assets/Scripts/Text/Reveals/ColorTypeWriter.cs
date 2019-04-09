@@ -16,19 +16,19 @@ namespace Text.Reveals
 	{
 		protected override void RevealCharacter(int whichCharacterIndex)
 		{
-			ColorSingleCharacter(displayText.textInfo.characterInfo[whichCharacterIndex], CachedColor);
-			ScaleCharacter(displayText.textInfo.characterInfo[whichCharacterIndex], 2f);
+			ColorSingleCharacter(DisplayText.textInfo.characterInfo[whichCharacterIndex], CachedColor);
+			ScaleCharacter(DisplayText.textInfo.characterInfo[whichCharacterIndex], 2f);
 
 			#region Refresh data to render correctly
 			// TODO: Compare the for loop with the UpdateVertexData function to see which one is more efficient
 			// Update mesh colors, verts & uv's.
-			for (int i = 0; i < displayText.textInfo.meshInfo.Length; i++)
+			for (int i = 0; i < DisplayText.textInfo.meshInfo.Length; i++)
 			{
-				displayText.textInfo.meshInfo[i].mesh.colors32 = displayText.textInfo.meshInfo[i].colors32;
-				displayText.textInfo.meshInfo[i].mesh.vertices = displayText.textInfo.meshInfo[i].vertices;
-				displayText.textInfo.meshInfo[i].mesh.uv = displayText.textInfo.meshInfo[i].uvs0;
+				DisplayText.textInfo.meshInfo[i].mesh.colors32 = DisplayText.textInfo.meshInfo[i].colors32;
+				DisplayText.textInfo.meshInfo[i].mesh.vertices = DisplayText.textInfo.meshInfo[i].vertices;
+				DisplayText.textInfo.meshInfo[i].mesh.uv = DisplayText.textInfo.meshInfo[i].uvs0;
 				
-				displayText.UpdateGeometry(displayText.textInfo.meshInfo[i].mesh, i);
+				DisplayText.UpdateGeometry(DisplayText.textInfo.meshInfo[i].mesh, i);
 			}
 			
 			// Alternative way to refresh data...
@@ -50,19 +50,19 @@ namespace Text.Reveals
 		protected void ColorAllCharacters(Color32 color)
 		{						
 			// Iterate through each character
-			for (var i = 0; i < displayText.textInfo.characterCount; i++)
+			for (int i = 0; i < DisplayText.textInfo.characterCount; i++)
 			{
 				// Bottom Left, Top Left, Top Right, Bottom Right
-				displayText.textInfo.meshInfo[0].colors32[displayText.textInfo.characterInfo[i].vertexIndex + 0] = color;
-				displayText.textInfo.meshInfo[0].colors32[displayText.textInfo.characterInfo[i].vertexIndex + 1] = color;
-				displayText.textInfo.meshInfo[0].colors32[displayText.textInfo.characterInfo[i].vertexIndex + 2] = color;
-				displayText.textInfo.meshInfo[0].colors32[displayText.textInfo.characterInfo[i].vertexIndex + 3] = color;
+				DisplayText.textInfo.meshInfo[0].colors32[DisplayText.textInfo.characterInfo[i].vertexIndex + 0] = color;
+				DisplayText.textInfo.meshInfo[0].colors32[DisplayText.textInfo.characterInfo[i].vertexIndex + 1] = color;
+				DisplayText.textInfo.meshInfo[0].colors32[DisplayText.textInfo.characterInfo[i].vertexIndex + 2] = color;
+				DisplayText.textInfo.meshInfo[0].colors32[DisplayText.textInfo.characterInfo[i].vertexIndex + 3] = color;
 			}
 
-			for (int i = 0; i < displayText.textInfo.meshInfo.Length; i++)
+			for (int i = 0; i < DisplayText.textInfo.meshInfo.Length; i++)
 			{
-				displayText.textInfo.meshInfo[i].mesh.colors32 = displayText.textInfo.meshInfo[i].colors32;
-				displayText.UpdateGeometry(displayText.textInfo.meshInfo[i].mesh, i);
+				DisplayText.textInfo.meshInfo[i].mesh.colors32 = DisplayText.textInfo.meshInfo[i].colors32;
+				DisplayText.UpdateGeometry(DisplayText.textInfo.meshInfo[i].mesh, i);
 			}
 		}
 
@@ -78,10 +78,10 @@ namespace Text.Reveals
 		protected void ColorSingleCharacter(TMP_CharacterInfo character, Color32 color)
 		{
 			// Bottom Left, Top Left, Top Right, Bottom Right
-			displayText.textInfo.meshInfo[0].colors32[character.vertexIndex + 0] = color;
-			displayText.textInfo.meshInfo[0].colors32[character.vertexIndex + 1] = color;
-			displayText.textInfo.meshInfo[0].colors32[character.vertexIndex + 2] = color;
-			displayText.textInfo.meshInfo[0].colors32[character.vertexIndex + 3] = color;
+			DisplayText.textInfo.meshInfo[0].colors32[character.vertexIndex + 0] = color;
+			DisplayText.textInfo.meshInfo[0].colors32[character.vertexIndex + 1] = color;
+			DisplayText.textInfo.meshInfo[0].colors32[character.vertexIndex + 2] = color;
+			DisplayText.textInfo.meshInfo[0].colors32[character.vertexIndex + 3] = color;
 		}
 	}
 }
