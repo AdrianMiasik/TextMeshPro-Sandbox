@@ -16,15 +16,19 @@ namespace Text.Reveals.Base
 		private float _characterDelay = 0.05f;
 
 		protected Color32 CachedColor;
+		private TMP_MeshInfo[] _originalMesh;
+		private Vector3[] _targetVertices;
 		
 		private bool _isRevealing;
 		private float _characterTime;
 		private float _totalRevealTime;
 		private int _numberOfCharacters;
 		private int _numberOfCharactersRevealed;
-
+		
 		protected abstract void RevealCharacter(int whichCharacterIndex);
 		protected abstract void HideAllCharacters();
+		
+		protected List<TMP_CharacterInfo> ActiveCharacters = new List<TMP_CharacterInfo>();
 		
 		private void Reset()
 		{
@@ -160,7 +164,8 @@ namespace Text.Reveals.Base
 			DisplayText.ForceMeshUpdate();
 
 			CachedColor = DisplayText.color;
-				
+			_originalMesh = DisplayText.textInfo.CopyMeshInfoVertexData();	
+			
 			HideAllCharacters();
 		}
 
@@ -186,7 +191,7 @@ namespace Text.Reveals.Base
 			_isRevealing = true;
 		}
 		
-		private void Update()
+		public virtual void Update()
 		{
 			// Prevent a negative value from being assigned
 			_characterDelay = Mathf.Clamp(_characterDelay, 0, _characterDelay);
@@ -226,8 +231,24 @@ namespace Text.Reveals.Base
 
 				UpdateStatisticsText();
 			}
+			ApplyMeshChanges();
 		}
 
+		// TODO: WIP
+		protected virtual void ApplyMeshChanges()
+		{
+			// TODO: Solve mesh.vertices is too small error
+			
+			// Vert changes
+			DisplayText.textInfo.meshInfo[0].mesh.vertices = _targetVertices;
+
+			// Refresh data to render correctly
+			DisplayText.UpdateGeometry(DisplayText.textInfo.meshInfo[0].mesh, 0);
+
+			// Cache data for next time we need to apply changes.
+			_originalMesh = DisplayText.textInfo.CopyMeshInfoVertexData();
+		}
+		
 		/// <summary>
 		/// Scales the specified character to a specific size. (Uniform)
 		/// </summary>
@@ -236,41 +257,42 @@ namespace Text.Reveals.Base
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="scale"></param>
-		public void ScaleCharacter(TMP_CharacterInfo character, float scale)
+		public void AddCharacterScale(TMP_CharacterInfo character, float scale)
 		{
 			// Skip any characters that aren't visible
 			if (!character.isVisible)
 				return;
 			
 			// Get the characters material vertices from the texts mesh
-			Vector3[] originalVertices = DisplayText.textInfo.meshInfo[character.materialReferenceIndex].vertices;
+			Vector3[] originalVertices = _originalMesh[character.materialReferenceIndex].vertices;
 			
 			// Make a copy of those verts
-			Vector3[] targetVertices = originalVertices;
+			_targetVertices = originalVertices;
 
 			int index = character.vertexIndex;
 			
 			// Locate the center of the mesh (Bottom left + top right) / 2
-			Vector3 characterOrigin = (originalVertices[index + 0] + originalVertices[index + 2]) / 2;
-
+			Vector3 characterOrigin = (originalVertices[index + 0] + originalVertices[index + 3]) / 2;
+			characterOrigin.y = 0;
+			
 			// Subtract the center of the mesh from target verts
-			targetVertices[index + 0] -= characterOrigin;
-			targetVertices[index + 1] -= characterOrigin;
-			targetVertices[index + 2] -= characterOrigin;
-			targetVertices[index + 3] -= characterOrigin;
+			_targetVertices[index + 0] -= characterOrigin;
+			_targetVertices[index + 1] -= characterOrigin;
+			_targetVertices[index + 2] -= characterOrigin;
+			_targetVertices[index + 3] -= characterOrigin;
 
 			// Scale the mesh of this character by our factor
 			Matrix4x4 matrix = Matrix4x4.Scale(Vector3.one * scale);
-			targetVertices[index + 0] = matrix.MultiplyPoint3x4(targetVertices[index + 0]);
-			targetVertices[index + 1] = matrix.MultiplyPoint3x4(targetVertices[index + 1]);
-			targetVertices[index + 2] = matrix.MultiplyPoint3x4(targetVertices[index + 2]);
-			targetVertices[index + 3] = matrix.MultiplyPoint3x4(targetVertices[index + 3]);
+			_targetVertices[index + 0] = matrix.MultiplyPoint3x4(_targetVertices[index + 0]);
+			_targetVertices[index + 1] = matrix.MultiplyPoint3x4(_targetVertices[index + 1]);
+			_targetVertices[index + 2] = matrix.MultiplyPoint3x4(_targetVertices[index + 2]);
+			_targetVertices[index + 3] = matrix.MultiplyPoint3x4(_targetVertices[index + 3]);
 
 			// Re-add the center of the mesh 
-			targetVertices[index + 1] += characterOrigin;
-			targetVertices[index + 2] += characterOrigin;
-			targetVertices[index + 0] += characterOrigin;
-			targetVertices[index + 3] += characterOrigin;
+			_targetVertices[index + 0] += characterOrigin;
+			_targetVertices[index + 1] += characterOrigin;
+			_targetVertices[index + 2] += characterOrigin;
+			_targetVertices[index + 3] += characterOrigin;
 		}
 	}
 }
