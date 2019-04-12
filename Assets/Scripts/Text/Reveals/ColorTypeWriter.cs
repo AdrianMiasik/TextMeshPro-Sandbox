@@ -14,26 +14,36 @@ namespace Text.Reveals
 	/// </summary>
 	public class ColorTypeWriter : TextReveal
 	{
-		protected override void RevealCharacter(int whichCharacterIndex)
-		{
-			ColorSingleCharacter(DisplayText.textInfo.characterInfo[whichCharacterIndex], CachedColor);
-			ScaleCharacter(DisplayText.textInfo.characterInfo[whichCharacterIndex], 2f);
+		public float scale = 1f;
+		public AnimationCurve myScale;
 
-			#region Refresh data to render correctly
-			// TODO: Compare the for loop with the UpdateVertexData function to see which one is more efficient
-			// Update mesh colors, verts & uv's.
-			for (int i = 0; i < DisplayText.textInfo.meshInfo.Length; i++)
-			{
-				DisplayText.textInfo.meshInfo[i].mesh.colors32 = DisplayText.textInfo.meshInfo[i].colors32;
-				DisplayText.textInfo.meshInfo[i].mesh.vertices = DisplayText.textInfo.meshInfo[i].vertices;
-				DisplayText.textInfo.meshInfo[i].mesh.uv = DisplayText.textInfo.meshInfo[i].uvs0;
-				
-				DisplayText.UpdateGeometry(DisplayText.textInfo.meshInfo[i].mesh, i);
-			}
+		protected override void RevealCharacter(int whichCharacterIndex)
+		{			
+			TMP_CharacterInfo character = DisplayText.textInfo.characterInfo[whichCharacterIndex];
 			
-			// Alternative way to refresh data...
-			// displayText.UpdateVertexData();
-			#endregion
+			// Color
+			ColorSingleCharacter(character, CachedColor);
+			DisplayText.textInfo.meshInfo[0].mesh.colors32 = DisplayText.textInfo.meshInfo[0].colors32;
+		}
+
+		public override void Update()
+		{
+			base.Update();
+
+			scale = myScale.Evaluate(Time.time);
+
+			foreach (TMP_CharacterInfo c in DisplayText.textInfo.characterInfo)
+			{
+				// TODO: Scale offset for each character
+                AddCharacterScale(c, scale);
+			}
+		}
+
+		protected override void ApplyMeshChanges()
+		{
+			// TODO: Move color into here?
+			
+			base.ApplyMeshChanges();
 		}
 
 		protected override void HideAllCharacters()
