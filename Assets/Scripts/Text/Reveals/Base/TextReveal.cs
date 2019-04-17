@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -13,11 +14,11 @@ namespace Text.Reveals.Base
 		private TextMeshProUGUI _statistics;
 
 		[SerializeField] [Tooltip("The amount of time (in seconds) between each character reveal.")]
-		private float _characterDelay = 0.05f;
+		protected float _characterDelay = 0.05f;
 
 		protected Color32 CachedColor;
 		private TMP_MeshInfo[] _originalMesh;
-		private Vector3[] _targetVertices;
+		private Vector3[] _targetVertices = new Vector3[0];
 		
 		private bool _isRevealing;
 		private float _characterTime;
@@ -25,11 +26,21 @@ namespace Text.Reveals.Base
 		private int _numberOfCharacters;
 		private int _numberOfCharactersRevealed;
 		
-		protected abstract void RevealCharacter(int whichCharacterIndex);
-		protected abstract void HideAllCharacters();
+		protected List<Character> allCharacters = new List<Character>();
 		
-		protected List<TMP_CharacterInfo> ActiveCharacters = new List<TMP_CharacterInfo>();
-		
+		protected virtual void RevealCharacter(int index)
+		{
+			allCharacters[index].IsRevealed = true;
+		}
+
+		protected virtual void HideAllCharacters()
+		{
+			for (int i = 0; i < allCharacters.Count; i++)
+			{
+				allCharacters[allCharacters.Count - 1].IsRevealed = false;
+			}
+		}
+				
 		private void Reset()
 		{
 			// Quickly Fetch References.
@@ -92,8 +103,7 @@ namespace Text.Reveals.Base
 		/// <param name="message"></param>
 		public void Reveal(string message)
 		{
-			SetTextString(message);
-			Initialize();
+			Initialize(message);
 			Play();
 		}
 
@@ -137,6 +147,20 @@ namespace Text.Reveals.Base
 			_characterDelay = timeInSeconds;
 		}
 
+		public virtual void InitializeScale()
+		{
+			
+		}
+
+		/// <summary>
+		/// Initializes the text reveal by changing the string, defaulting some variables, and hiding the text.
+		/// </summary>
+		private void Initialize(string message)
+		{
+			SetTextString(message);
+			Initialize();
+		}
+
 		/// <summary>
 		/// Set the text string.
 		/// </summary>
@@ -147,7 +171,7 @@ namespace Text.Reveals.Base
 		}
 
 		/// <summary>
-		/// Initializes the text reveal by defaulting some variables and hiding the text;
+		/// Initializes the text by defaulting some variables, and hiding the text.
 		/// </summary>
 		private void Initialize()
 		{
@@ -164,8 +188,22 @@ namespace Text.Reveals.Base
 			DisplayText.ForceMeshUpdate();
 
 			CachedColor = DisplayText.color;
-			_originalMesh = DisplayText.textInfo.CopyMeshInfoVertexData();	
+			_originalMesh = DisplayText.textInfo.CopyMeshInfoVertexData();
+
+			allCharacters.Clear();
+
+			for (int i = 0; i < _numberOfCharacters; i++)
+			{
+				// Create a character class
+				Character c = new Character(DisplayText.textInfo.characterInfo[i]);
+				
+				// Cache that character class. (This will be used for later to keep track of effects and each character state)
+				allCharacters.Add(c);
+
+			}
 			
+			InitializeScale();
+
 			HideAllCharacters();
 		}
 
@@ -206,7 +244,7 @@ namespace Text.Reveals.Base
 					UpdateStatisticsText();
 
 					// Early exit
-					return;
+//					return;
 				}
 
 				_totalRevealTime += Time.deltaTime;
@@ -231,17 +269,19 @@ namespace Text.Reveals.Base
 
 				UpdateStatisticsText();
 			}
-			ApplyMeshChanges();
 		}
 
 		// TODO: WIP
 		protected virtual void ApplyMeshChanges()
 		{
 			// TODO: Solve mesh.vertices is too small error
+			if (_targetVertices.Length <= 0) return;
 			
+			DisplayText.textInfo.meshInfo[0].mesh.SetVertices(_targetVertices.ToList());
+
 			// Vert changes
 			DisplayText.textInfo.meshInfo[0].mesh.vertices = _targetVertices;
-
+			
 			// Refresh data to render correctly
 			DisplayText.UpdateGeometry(DisplayText.textInfo.meshInfo[0].mesh, 0);
 

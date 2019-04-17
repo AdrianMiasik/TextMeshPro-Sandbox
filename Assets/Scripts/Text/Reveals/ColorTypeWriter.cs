@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Text.Reveals.Base;
 using TMPro;
 using UnityEngine;
@@ -17,26 +18,56 @@ namespace Text.Reveals
 		public float scale = 1f;
 		public AnimationCurve myScale;
 
-		protected override void RevealCharacter(int whichCharacterIndex)
-		{			
-			TMP_CharacterInfo character = DisplayText.textInfo.characterInfo[whichCharacterIndex];
+		public float currentTime;
+
+		protected override void RevealCharacter(int index)
+		{
+			base.RevealCharacter(index);
 			
 			// Color
-			ColorSingleCharacter(character, CachedColor);
+			ColorSingleCharacter(allCharacters[index].Info(), CachedColor);
 			DisplayText.textInfo.meshInfo[0].mesh.colors32 = DisplayText.textInfo.meshInfo[0].colors32;
 		}
 
 		public override void Update()
 		{
 			base.Update();
+						
+//			// We have nothing to update, lets stop ticking
+//			if (allCharacters.Count <= 0) return;
+			
+//			currentTime += Time.deltaTime;
 
-			scale = myScale.Evaluate(Time.time);
+//			scale = myScale.Evaluate(currentTime);
 
-			foreach (TMP_CharacterInfo c in DisplayText.textInfo.characterInfo)
+			for (int i = 0; i < allCharacters.Count; i++)
 			{
-				// TODO: Scale offset for each character
-                AddCharacterScale(c, scale);
+				// Cache character
+				Character c = allCharacters[i];
+				
+				// TODO: If the reveal is sequential then break early 
+				// If this character is not revealed or not visible, then skip it.
+				if (!c.IsRevealed || !c.Info().isVisible) continue;
+				
+				c.timeSinceReveal += Time.deltaTime;
+				
+				// If this characters reveal has went over the animation curve in terms of time
+				if (c.timeSinceReveal <= myScale[myScale.length - 1].time)
+				{
+					AddCharacterScale(c.Info(), myScale.Evaluate(c.timeSinceReveal));
+				}
+				else
+				{
+					ColorSingleCharacter(c.Info(), Color.green);
+				}
 			}
+			
+			ApplyMeshChanges();
+			
+			// TODO: Complete tick cycle (When the effect is done, don't update for this character)
+			
+			// Temp: Update colors
+			DisplayText.textInfo.meshInfo[0].mesh.colors32 = DisplayText.textInfo.meshInfo[0].colors32;
 		}
 
 		protected override void ApplyMeshChanges()
@@ -46,8 +77,15 @@ namespace Text.Reveals
 			base.ApplyMeshChanges();
 		}
 
+		public override void InitializeScale()
+		{
+			currentTime = 0;
+		}
+
 		protected override void HideAllCharacters()
 		{
+			base.HideAllCharacters();
+			
 			ColorAllCharacters(new Color32(0,0,0,0));
 		}
 		

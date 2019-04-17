@@ -26,10 +26,10 @@ namespace Text.Reveals
 			DisplayText.maxVisibleCharacters = 0;
 		}
 
-		protected override void RevealCharacter(int characterIndex)
+		protected override void RevealCharacter(int index)
 		{
 			// Reveal a character
-			DisplayText.maxVisibleCharacters = characterIndex + 1;
+			DisplayText.maxVisibleCharacters = index + 1;
 		}
 	}
 }
