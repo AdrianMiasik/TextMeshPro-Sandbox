@@ -23,13 +23,13 @@ namespace Text.Reveals
 		protected override void HideAllCharacters()
 		{
 			// Hide the text
-			DisplayText.maxVisibleCharacters = 0;
+			displayText.maxVisibleCharacters = 0;
 		}
 
 		protected override void RevealCharacter(int index)
 		{
 			// Reveal a character
-			DisplayText.maxVisibleCharacters = index + 1;
+			displayText.maxVisibleCharacters = index + 1;
 		}
 	}
 }

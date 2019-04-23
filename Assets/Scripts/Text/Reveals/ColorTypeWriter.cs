@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Text.Reveals.Base;
 using TMPro;
 using UnityEngine;
@@ -15,73 +14,15 @@ namespace Text.Reveals
 	/// </summary>
 	public class ColorTypeWriter : TextReveal
 	{
-		public float scale = 1f;
-		public AnimationCurve myScale;
-
-		public float currentTime;
-
 		protected override void RevealCharacter(int index)
 		{
 			base.RevealCharacter(index);
 			
 			// Color
-			ColorSingleCharacter(allCharacters[index].Info(), CachedColor);
-			DisplayText.textInfo.meshInfo[0].mesh.colors32 = DisplayText.textInfo.meshInfo[0].colors32;
+			ColorSingleCharacter(AllCharacters[index].Info(), CachedColor);
+			displayText.textInfo.meshInfo[0].mesh.colors32 = displayText.textInfo.meshInfo[0].colors32;
 		}
-
-		public override void Update()
-		{
-			base.Update();
-						
-//			// We have nothing to update, lets stop ticking
-//			if (allCharacters.Count <= 0) return;
-			
-//			currentTime += Time.deltaTime;
-
-//			scale = myScale.Evaluate(currentTime);
-
-			for (int i = 0; i < allCharacters.Count; i++)
-			{
-				// Cache character
-				Character c = allCharacters[i];
-				
-				// TODO: If the reveal is sequential then break early 
-				// If this character is not revealed or not visible, then skip it.
-				if (!c.IsRevealed || !c.Info().isVisible) continue;
-				
-				c.timeSinceReveal += Time.deltaTime;
-				
-				// If this characters reveal has went over the animation curve in terms of time
-				if (c.timeSinceReveal <= myScale[myScale.length - 1].time)
-				{
-					AddCharacterScale(c.Info(), myScale.Evaluate(c.timeSinceReveal));
-				}
-				else
-				{
-					ColorSingleCharacter(c.Info(), Color.green);
-				}
-			}
-			
-			ApplyMeshChanges();
-			
-			// TODO: Complete tick cycle (When the effect is done, don't update for this character)
-			
-			// Temp: Update colors
-			DisplayText.textInfo.meshInfo[0].mesh.colors32 = DisplayText.textInfo.meshInfo[0].colors32;
-		}
-
-		protected override void ApplyMeshChanges()
-		{
-			// TODO: Move color into here?
-			
-			base.ApplyMeshChanges();
-		}
-
-		public override void InitializeScale()
-		{
-			currentTime = 0;
-		}
-
+		
 		protected override void HideAllCharacters()
 		{
 			base.HideAllCharacters();
@@ -98,19 +39,19 @@ namespace Text.Reveals
 		protected void ColorAllCharacters(Color32 color)
 		{						
 			// Iterate through each character
-			for (int i = 0; i < DisplayText.textInfo.characterCount; i++)
+			for (int i = 0; i < displayText.textInfo.characterCount; i++)
 			{
 				// Bottom Left, Top Left, Top Right, Bottom Right
-				DisplayText.textInfo.meshInfo[0].colors32[DisplayText.textInfo.characterInfo[i].vertexIndex + 0] = color;
-				DisplayText.textInfo.meshInfo[0].colors32[DisplayText.textInfo.characterInfo[i].vertexIndex + 1] = color;
-				DisplayText.textInfo.meshInfo[0].colors32[DisplayText.textInfo.characterInfo[i].vertexIndex + 2] = color;
-				DisplayText.textInfo.meshInfo[0].colors32[DisplayText.textInfo.characterInfo[i].vertexIndex + 3] = color;
+				displayText.textInfo.meshInfo[0].colors32[displayText.textInfo.characterInfo[i].vertexIndex + 0] = color;
+				displayText.textInfo.meshInfo[0].colors32[displayText.textInfo.characterInfo[i].vertexIndex + 1] = color;
+				displayText.textInfo.meshInfo[0].colors32[displayText.textInfo.characterInfo[i].vertexIndex + 2] = color;
+				displayText.textInfo.meshInfo[0].colors32[displayText.textInfo.characterInfo[i].vertexIndex + 3] = color;
 			}
 
-			for (int i = 0; i < DisplayText.textInfo.meshInfo.Length; i++)
+			for (int i = 0; i < displayText.textInfo.meshInfo.Length; i++)
 			{
-				DisplayText.textInfo.meshInfo[i].mesh.colors32 = DisplayText.textInfo.meshInfo[i].colors32;
-				DisplayText.UpdateGeometry(DisplayText.textInfo.meshInfo[i].mesh, i);
+				displayText.textInfo.meshInfo[i].mesh.colors32 = displayText.textInfo.meshInfo[i].colors32;
+				displayText.UpdateGeometry(displayText.textInfo.meshInfo[i].mesh, i);
 			}
 		}
 
@@ -126,10 +67,10 @@ namespace Text.Reveals
 		protected void ColorSingleCharacter(TMP_CharacterInfo character, Color32 color)
 		{
 			// Bottom Left, Top Left, Top Right, Bottom Right
-			DisplayText.textInfo.meshInfo[0].colors32[character.vertexIndex + 0] = color;
-			DisplayText.textInfo.meshInfo[0].colors32[character.vertexIndex + 1] = color;
-			DisplayText.textInfo.meshInfo[0].colors32[character.vertexIndex + 2] = color;
-			DisplayText.textInfo.meshInfo[0].colors32[character.vertexIndex + 3] = color;
+			displayText.textInfo.meshInfo[0].colors32[character.vertexIndex + 0] = color;
+			displayText.textInfo.meshInfo[0].colors32[character.vertexIndex + 1] = color;
+			displayText.textInfo.meshInfo[0].colors32[character.vertexIndex + 2] = color;
+			displayText.textInfo.meshInfo[0].colors32[character.vertexIndex + 3] = color;
 		}
 	}
 }

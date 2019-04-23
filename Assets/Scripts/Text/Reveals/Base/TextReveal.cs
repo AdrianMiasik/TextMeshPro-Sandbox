@@ -8,13 +8,13 @@ namespace Text.Reveals.Base
 	public abstract class TextReveal : MonoBehaviour
 	{
 		[SerializeField] [Tooltip("The text we want to reveal.")]
-		internal TextMeshProUGUI DisplayText;
+		internal TextMeshProUGUI displayText;
 
 		[SerializeField] [Tooltip("The text we will use to display statistics about this character reveal (Number of characters revealed, the delay in-between each character reveal, the current characters reveal time, and the total elapsed time).")]
-		private TextMeshProUGUI _statistics;
+		private TextMeshProUGUI statistics;
 
 		[SerializeField] [Tooltip("The amount of time (in seconds) between each character reveal.")]
-		protected float _characterDelay = 0.05f;
+		protected float characterDelay = 0.05f;
 
 		protected Color32 CachedColor;
 		private TMP_MeshInfo[] _originalMesh;
@@ -25,42 +25,52 @@ namespace Text.Reveals.Base
 		private float _totalRevealTime;
 		private int _numberOfCharacters;
 		private int _numberOfCharactersRevealed;
+
+		protected Character[] AllCharacters;
+
+		// Note: We are assuming this list will never contain a null element
+		public List<Effect> allEffects = new List<Effect>();
+
+		public bool vertexUpdate = false;
+		public bool colorUpdate = false;
 		
-		protected List<Character> allCharacters = new List<Character>();
+		// TODO: 
+		// Bool for update mesh verts
+		// Bool for update mesh colors
 		
 		protected virtual void RevealCharacter(int index)
 		{
-			allCharacters[index].IsRevealed = true;
+			AllCharacters[index].IsRevealed = true;
 		}
 
 		protected virtual void HideAllCharacters()
 		{
-			for (int i = 0; i < allCharacters.Count; i++)
+			for (int i = 0; i < AllCharacters.Length; i++)
 			{
-				allCharacters[allCharacters.Count - 1].IsRevealed = false;
+				AllCharacters[AllCharacters.Length - 1].IsRevealed = false;
 			}
 		}
 				
 		private void Reset()
 		{
 			// Quickly Fetch References.
-			DisplayText = GetComponent<TextMeshProUGUI>();
-			_statistics = GetComponent<TextMeshProUGUI>();
+			displayText = GetComponent<TextMeshProUGUI>();
+			statistics = GetComponent<TextMeshProUGUI>();
 		}
 
 		private void Awake()
 		{
 			// If displayText is null...
-			if (DisplayText == null)
+			if (displayText == null)
 			{
 				// Attempt to assign
-				DisplayText = GetComponent<TextMeshProUGUI>();
+				displayText = GetComponent<TextMeshProUGUI>();
 
 #if DEBUG_TEXT
 				// Assign failed...
-				if (DisplayText == null)
+				if (displayText == null)
 				{
-					Debug.LogAssertion("No TextMeshProUGUI component found.");
+					Debug.LogAssertion("No TextMeshProUGUI component found. (" + this.GetType() + ")", gameObject);
 				}
 #endif
 			}
@@ -68,7 +78,7 @@ namespace Text.Reveals.Base
 
 		private void Start()
 		{
-			if (!DisplayText)
+			if (!displayText)
 			{
 #if DEBUG_TEXT
 				Debug.LogWarning("No TextMeshProUGUI component found.");
@@ -80,7 +90,7 @@ namespace Text.Reveals.Base
 				_isRevealing = true;
 			}
 
-			if (!_statistics)
+			if (!statistics)
 			{
 #if DEBUG_TEXT
 				Debug.LogWarning("No TextMeshProUGUI component found.");
@@ -135,7 +145,7 @@ namespace Text.Reveals.Base
 		/// <param name="source"></param>
 		public void ReplaceStringWithSources(TMP_InputField source)
 		{
-			DisplayText.text = source.text;
+			displayText.text = source.text;
 		}
 
 		/// <summary>
@@ -144,12 +154,7 @@ namespace Text.Reveals.Base
 		/// <param name="timeInSeconds"></param>
 		private void SetCharacterDelay(float timeInSeconds)
 		{
-			_characterDelay = timeInSeconds;
-		}
-
-		public virtual void InitializeScale()
-		{
-			
+			characterDelay = timeInSeconds;
 		}
 
 		/// <summary>
@@ -167,7 +172,7 @@ namespace Text.Reveals.Base
 		/// <param name="message"></param>
 		private void SetTextString(string message)
 		{
-			DisplayText.text = message;
+			displayText.text = message;
 		}
 
 		/// <summary>
@@ -176,7 +181,7 @@ namespace Text.Reveals.Base
 		private void Initialize()
 		{
 			_numberOfCharactersRevealed = 0;
-			_numberOfCharacters = DisplayText.text.Length;
+			_numberOfCharacters = displayText.text.Length;
 			_totalRevealTime = 0f;
 
 			// Force the mesh update so we don't have to wait a frame to get the data.
@@ -185,24 +190,20 @@ namespace Text.Reveals.Base
 			// Source: https://www.youtube.com/watch?v=ZHU3AcyDKik&feature=youtu.be&t=164
 			// In most cases it's fine for TMP to render at it's normal timings but as mentioned above if we are going
 			// to manipulate or fetch data from the mesh we should force the mesh to update so the data remains accurate.
-			DisplayText.ForceMeshUpdate();
+			displayText.ForceMeshUpdate();
 
-			CachedColor = DisplayText.color;
-			_originalMesh = DisplayText.textInfo.CopyMeshInfoVertexData();
+			CachedColor = displayText.color;
+			_originalMesh = displayText.textInfo.CopyMeshInfoVertexData();
+			
+			// Define the size of our array
+			AllCharacters = new Character[_numberOfCharacters];
 
-			allCharacters.Clear();
-
+			// Create and cache a character class (This will be used for later to keep track of effects and each character state)
 			for (int i = 0; i < _numberOfCharacters; i++)
 			{
-				// Create a character class
-				Character c = new Character(DisplayText.textInfo.characterInfo[i]);
-				
-				// Cache that character class. (This will be used for later to keep track of effects and each character state)
-				allCharacters.Add(c);
-
+				Character c = new Character(displayText.textInfo.characterInfo[i]);
+				AllCharacters[i] = c;
 			}
-			
-			InitializeScale();
 
 			HideAllCharacters();
 		}
@@ -212,8 +213,8 @@ namespace Text.Reveals.Base
 		/// </summary>
 		private void UpdateStatisticsText()
 		{
-			_statistics.text = "Number of characters revealed: " + _numberOfCharactersRevealed + "/" + _numberOfCharacters + "\n" +
-			                  "Delay in-between character reveal: " + _characterDelay + " seconds.\n" +
+			statistics.text = "Number of characters revealed: " + _numberOfCharactersRevealed + "/" + _numberOfCharacters + "\n" +
+			                  "Delay in-between character reveal: " + characterDelay + " seconds.\n" +
 			                  "Current character reveal time: " + _characterTime.ToString("F2") + " seconds.\n" +
 			                  "Elapsed time: " + _totalRevealTime.ToString("F2") + " seconds.\n";
 		}
@@ -232,7 +233,7 @@ namespace Text.Reveals.Base
 		public virtual void Update()
 		{
 			// Prevent a negative value from being assigned
-			_characterDelay = Mathf.Clamp(_characterDelay, 0, _characterDelay);
+			characterDelay = Mathf.Clamp(characterDelay, 0, characterDelay);
 			
 			// If we are text revealing...
 			if (_isRevealing)
@@ -244,19 +245,19 @@ namespace Text.Reveals.Base
 					UpdateStatisticsText();
 
 					// Early exit
-//					return;
+					return;
 				}
 
 				_totalRevealTime += Time.deltaTime;
 				_characterTime += Time.deltaTime;
 
 				// While loop used to calculate how many letters on the same frame needs to be drawn
-				while (_characterTime > _characterDelay)
+				while (_characterTime > characterDelay)
 				{
 					RevealCharacter(_numberOfCharactersRevealed);
 					_numberOfCharactersRevealed++;
 
-					_characterTime -= _characterDelay;
+					_characterTime -= characterDelay;
 
 					// If all characters are revealed, set the _isRevealing flag as dirty and break out of this while loop 
 					if (_numberOfCharactersRevealed == _numberOfCharacters)
@@ -269,24 +270,40 @@ namespace Text.Reveals.Base
 
 				UpdateStatisticsText();
 			}
+
+			if (AllCharacters.Length <= 0) return;
+			
+			// If we don't have any effects, lets exit early
+			if (allEffects.Count <= 0) return;
+			
+			// Tick each effect applied on this text reveal
+			for (int i = 0; i < allEffects.Count; i++)
+			{
+				// TODO: Not sure how much I like passing this class to the scriptable object. :c
+				allEffects[i].Tick(this, AllCharacters);
+			}
+
+			if (vertexUpdate)
+			{
+				vertexUpdate = false;
+				ApplyMeshChanges();
+			}
 		}
 
-		// TODO: WIP
-		protected virtual void ApplyMeshChanges()
+		public void ApplyMeshChanges()
 		{
-			// TODO: Solve mesh.vertices is too small error
 			if (_targetVertices.Length <= 0) return;
 			
-			DisplayText.textInfo.meshInfo[0].mesh.SetVertices(_targetVertices.ToList());
+			displayText.textInfo.meshInfo[0].mesh.SetVertices(_targetVertices.ToList());
 
 			// Vert changes
-			DisplayText.textInfo.meshInfo[0].mesh.vertices = _targetVertices;
+			displayText.textInfo.meshInfo[0].mesh.vertices = _targetVertices;
 			
 			// Refresh data to render correctly
-			DisplayText.UpdateGeometry(DisplayText.textInfo.meshInfo[0].mesh, 0);
+			displayText.UpdateGeometry(displayText.textInfo.meshInfo[0].mesh, 0);
 
 			// Cache data for next time we need to apply changes.
-			_originalMesh = DisplayText.textInfo.CopyMeshInfoVertexData();
+			_originalMesh = displayText.textInfo.CopyMeshInfoVertexData();
 		}
 		
 		/// <summary>
@@ -333,6 +350,9 @@ namespace Text.Reveals.Base
 			_targetVertices[index + 1] += characterOrigin;
 			_targetVertices[index + 2] += characterOrigin;
 			_targetVertices[index + 3] += characterOrigin;
+
+			// Set our vertex update to true so we can update all the vertex data at once instead of numerous times in a single frame.
+			vertexUpdate = true;
 		}
 	}
 }
