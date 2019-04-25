@@ -2456,6 +2456,7 @@ MonoBehaviour:
   displayText: {fileID: 0}
   statistics: {fileID: 0}
   characterDelay: 0.05
+  characterScale: 0
   allEffects: []
   vertexUpdate: 0
   colorUpdate: 0
@@ -2474,6 +2475,7 @@ MonoBehaviour:
   displayText: {fileID: 0}
   statistics: {fileID: 0}
   characterDelay: 0.05
+  characterScale: 0
   allEffects: []
   vertexUpdate: 0
   colorUpdate: 0
@@ -2491,10 +2493,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayText: {fileID: 1754218259}
   statistics: {fileID: 1659992258}
-  characterDelay: 0.05
+  characterDelay: 0.2
+  characterScale: 0
   allEffects:
   - {fileID: 11400000, guid: 30d34af388203004d98c9bdfa81d38f0, type: 2}
-  - {fileID: 11400000, guid: 05a9b6a2853c96e418951992f3d9e324, type: 2}
   vertexUpdate: 0
   colorUpdate: 0
 --- !u!114 &2094617728

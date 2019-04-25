@@ -26,6 +26,8 @@ namespace Text.Reveals.Base
 		private int _numberOfCharacters;
 		private int _numberOfCharactersRevealed;
 
+		public float characterScale;
+
 		protected Character[] AllCharacters;
 
 		// Note: We are assuming this list will never contain a null element
@@ -271,21 +273,31 @@ namespace Text.Reveals.Base
 				UpdateStatisticsText();
 			}
 
-			if (AllCharacters.Length <= 0) return;
-			
-			// If we don't have any effects, lets exit early
-			if (allEffects.Count <= 0) return;
-			
-			// Tick each effect applied on this text reveal
-			for (int i = 0; i < allEffects.Count; i++)
+			// Iterate through all the characters
+			for (int i = 0; i < AllCharacters.Length; i++)
 			{
-				// TODO: Not sure how much I like passing this class to the scriptable object. :c
-				allEffects[i].Tick(this, AllCharacters);
+				// If we have effects to apply to this character...
+				if (allEffects.Count > 0)
+				{
+					// Iterate through all the effects to apply to this character
+					for (int j = 0; j < allEffects.Count; j++)
+					{
+						// TODO: If calculations are the same for this frame and last, don't scale / update mesh.
+						SetCharacterScale(AllCharacters[i].Info(), allEffects[j].Calculate(AllCharacters[i]));
+					}
+				}
+				// We don't have any effects to apply, lets just do the regular scale.
+				else
+				{
+					// TODO: Look into TMPro_EventManager and how to only scale on text change
+					SetCharacterScale(AllCharacters[i].Info(), 0);
+				}
 			}
-
+			
 			if (vertexUpdate)
 			{
 				vertexUpdate = false;
+				Debug.Log("Updating mesh");
 				ApplyMeshChanges();
 			}
 		}
@@ -314,7 +326,7 @@ namespace Text.Reveals.Base
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="scale"></param>
-		public void AddCharacterScale(TMP_CharacterInfo character, float scale)
+		public void SetCharacterScale(TMP_CharacterInfo character, float scale)
 		{
 			// Skip any characters that aren't visible
 			if (!character.isVisible)
@@ -339,7 +351,7 @@ namespace Text.Reveals.Base
 			_targetVertices[index + 3] -= characterOrigin;
 
 			// Scale the mesh of this character by our factor
-			Matrix4x4 matrix = Matrix4x4.Scale(Vector3.one * scale);
+			Matrix4x4 matrix = Matrix4x4.Scale((scale + characterScale) * Vector3.one);
 			_targetVertices[index + 0] = matrix.MultiplyPoint3x4(_targetVertices[index + 0]);
 			_targetVertices[index + 1] = matrix.MultiplyPoint3x4(_targetVertices[index + 1]);
 			_targetVertices[index + 2] = matrix.MultiplyPoint3x4(_targetVertices[index + 2]);

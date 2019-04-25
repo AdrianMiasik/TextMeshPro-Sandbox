@@ -5,6 +5,6 @@ namespace Text.Reveals
 {
 	public abstract class Effect : ScriptableObject
 	{
-		public abstract void Tick(TextReveal txt, Character[] chars);
+		public abstract float Calculate(Character character);
 	}
 }

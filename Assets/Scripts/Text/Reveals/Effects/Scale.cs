@@ -8,35 +8,15 @@ namespace Text.Reveals.Effects
 	{
 		public AnimationCurve uniform;
 
-		public override void Tick(TextReveal txt, Character[] chars)
+		public override float Calculate(Character c)
 		{
-			// Iterate through each character in our reveal...
-			for (int i = 0; i < chars.Length; i++)
-			{
-				// Get the current character
-				Character c = chars[i];
+			// If our current character is not revealed or not visible, then skip it.
+			if (!c.IsRevealed || !c.Info().isVisible) return 0f;
 
-				// TODO: If the reveal is sequential then break early 
-				// If our current character is not revealed or not visible, then skip it.
-				if (!c.IsRevealed || !c.Info().isVisible) continue;
+			// Accumulate time to this specific character
+			c.timeSinceReveal += Time.deltaTime;
 
-				// Accumulate time to this specific character
-				c.timeSinceReveal += Time.deltaTime;
-
-				if (uniform.postWrapMode == WrapMode.PingPong || uniform.postWrapMode == WrapMode.Loop)
-				{
-					txt.AddCharacterScale(c.Info(), uniform.Evaluate(c.timeSinceReveal));
-				}
-				else
-				{
-					// If this characters reveal is in progress...
-					if (c.timeSinceReveal <= uniform[uniform.length - 1].time)
-					{
-						// Scale the character
-						txt.AddCharacterScale(c.Info(), uniform.Evaluate(c.timeSinceReveal));
-					}
-				}
-			}
+			return uniform.Evaluate(c.timeSinceReveal);
 		}
 	}
 }
