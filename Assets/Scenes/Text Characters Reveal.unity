@@ -2456,6 +2456,14 @@ MonoBehaviour:
   displayText: {fileID: 0}
   statistics: {fileID: 0}
   characterDelay: 0.05
+  CachedColor:
+    rgba: 0
+  _targetVertices: []
+  _isRevealing: 0
+  _characterTime: 0
+  _totalRevealTime: 0
+  _numberOfCharacters: 0
+  _numberOfCharactersRevealed: 0
   characterScale: 0
   allEffects: []
   vertexUpdate: 0
@@ -2475,6 +2483,14 @@ MonoBehaviour:
   displayText: {fileID: 0}
   statistics: {fileID: 0}
   characterDelay: 0.05
+  CachedColor:
+    rgba: 0
+  _targetVertices: []
+  _isRevealing: 0
+  _characterTime: 0
+  _totalRevealTime: 0
+  _numberOfCharacters: 0
+  _numberOfCharactersRevealed: 0
   characterScale: 0
   allEffects: []
   vertexUpdate: 0
@@ -2486,7 +2502,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2094617723}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b0cfa802cf20487eb0930b0985bbffb7, type: 3}
   m_Name: 
@@ -2494,6 +2510,14 @@ MonoBehaviour:
   displayText: {fileID: 1754218259}
   statistics: {fileID: 1659992258}
   characterDelay: 0.2
+  CachedColor:
+    rgba: 0
+  _targetVertices: []
+  _isRevealing: 0
+  _characterTime: 0
+  _totalRevealTime: 0
+  _numberOfCharacters: 0
+  _numberOfCharactersRevealed: 0
   characterScale: 0
   allEffects:
   - {fileID: 11400000, guid: 30d34af388203004d98c9bdfa81d38f0, type: 2}

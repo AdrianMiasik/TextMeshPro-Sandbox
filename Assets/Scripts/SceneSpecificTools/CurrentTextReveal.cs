@@ -1,6 +1,6 @@
-﻿using Text.Reveals.Base;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
+using Text.Reveals.Base;
 
 namespace SceneSpecificTools
 {
