@@ -1,8 +1,12 @@
-using Text.Reveals.Base;
+// Author: Adrian Miasik
+// Personal Portfolio: http://AdrianMiasik.com
+// Github Account: https://github.com/AdrianMiasik
+
+using Textensions.Reveals.Base;
 using TMPro;
 using UnityEngine;
 
-namespace Text.Reveals
+namespace Textensions.Reveals
 {
 	/// <summary>
 	/// Reveals text characters over time in a random sequence by changing each characters vertex colors. (Using the TextMeshProUGUI component).

@@ -1,8 +1,10 @@
-﻿using System;
-using TMPro;
-using Tools;
+﻿// Author: Adrian Miasik
+// Personal Portfolio: http://AdrianMiasik.com
+// Github Account: https://github.com/AdrianMiasik
 
-namespace Text.Reveals
+using System;
+
+namespace Textensions.Reveals
 {
 	/// <summary>
 	/// Reveals text characters over time in a random sequence by changing each characters vertex colors. (Using the TextMeshProUGUI component).

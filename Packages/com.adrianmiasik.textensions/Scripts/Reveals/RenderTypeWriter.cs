@@ -2,10 +2,9 @@
 // Personal Portfolio: http://AdrianMiasik.com
 // Github Account: https://github.com/AdrianMiasik
 
-using Text.Reveals.Base;
-using TMPro;
+using Textensions.Reveals.Base;
 
-namespace Text.Reveals
+namespace Textensions.Reveals
 {
 	/// <summary>
 	/// Reveals text characters over time much like a typewriter (Using the TextMeshProUGUI component).

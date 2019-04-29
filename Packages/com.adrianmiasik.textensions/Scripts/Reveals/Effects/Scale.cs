@@ -1,7 +1,11 @@
-using Text.Reveals.Base;
+// Author: Adrian Miasik
+// Personal Portfolio: http://AdrianMiasik.com
+// Github Account: https://github.com/AdrianMiasik
+
+using Textensions.Reveals.Base;
 using UnityEngine;
 
-namespace Text.Reveals.Effects
+namespace Textensions.Reveals.Effects
 {
 	[CreateAssetMenu(menuName = "Text Reveals/Effects/Scale", fileName = "New Scale Effect")]
 	public class Scale: Effect

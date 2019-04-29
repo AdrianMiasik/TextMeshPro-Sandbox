@@ -1,6 +1,10 @@
+// Author: Adrian Miasik
+// Personal Portfolio: http://AdrianMiasik.com
+// Github Account: https://github.com/AdrianMiasik
+
 using TMPro;
 
-namespace Text.Reveals
+namespace Textensions.Reveals
 {
 	public class Character
 	{

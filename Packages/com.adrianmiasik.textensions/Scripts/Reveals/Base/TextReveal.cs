@@ -1,9 +1,13 @@
+// Author: Adrian Miasik
+// Personal Portfolio: http://AdrianMiasik.com
+// Github Account: https://github.com/AdrianMiasik
+
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 
-namespace Text.Reveals.Base
+namespace Textensions.Reveals.Base
 {
 	public abstract class TextReveal : MonoBehaviour
 	{
