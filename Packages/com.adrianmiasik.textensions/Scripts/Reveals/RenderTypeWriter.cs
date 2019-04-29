@@ -2,9 +2,9 @@
 // Personal Portfolio: http://AdrianMiasik.com
 // Github Account: https://github.com/AdrianMiasik
 
-using Text.Reveals.Base;
+using Textensions.Reveals.Base;
 
-namespace Text.Reveals
+namespace Textensions.Reveals
 {
 	/// <summary>
 	/// Reveals text characters over time much like a typewriter (Using the TextMeshProUGUI component).
@@ -19,16 +19,16 @@ namespace Text.Reveals
 		/// <summary>
 		/// Hides the text by not rendering any of the character
 		/// </summary>
-		protected override void HideText()
+		protected override void HideAllCharacters()
 		{
 			// Hide the text
 			displayText.maxVisibleCharacters = 0;
 		}
 
-		protected override void CharacterReveal()
+		protected override void RevealCharacter(int index)
 		{
 			// Reveal a character
-			displayText.maxVisibleCharacters = NumberOfCharactersRevealed;
+			displayText.maxVisibleCharacters = index + 1;
 		}
 	}
 }

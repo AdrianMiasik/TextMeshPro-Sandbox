@@ -1,4 +1,4 @@
-﻿using Text.Reveals.Base;
+﻿using Textensions.Reveals.Base;
 using TMPro;
 using UnityEngine;
 

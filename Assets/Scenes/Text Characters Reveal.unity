@@ -177,7 +177,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: Release 1.0.1
+  m_text: Release 1.1.0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1873,7 +1873,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 0
+  m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_firstOverflowCharacterIndex: -1
@@ -1943,7 +1943,7 @@ GameObject:
   - component: {fileID: 1754218260}
   - component: {fileID: 1754218259}
   m_Layer: 5
-  m_Name: '[Example Text]'
+  m_Name: '[Display Text]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2024,7 +2024,7 @@ MonoBehaviour:
   m_fontSizeMin: 1
   m_fontSizeMax: 100
   m_fontStyle: 1
-  m_textAlignment: 514
+  m_textAlignment: 4098
   m_characterSpacing: 0
   m_wordSpacing: 5
   m_lineSpacing: 0
@@ -2448,14 +2448,18 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2094617723}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b387752e3e6ebd940aba95020a07f958, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayText: {fileID: 1754218259}
-  statistics: {fileID: 1659992258}
+  displayText: {fileID: 0}
+  statistics: {fileID: 0}
   characterDelay: 0.05
+  characterScale: 0
+  allEffects: []
+  vertexUpdate: 0
+  colorUpdate: 0
 --- !u!114 &2094617726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2468,9 +2472,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dda6b34e8933a494caec694f7935eb00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayText: {fileID: 1754218259}
-  statistics: {fileID: 1659992258}
+  displayText: {fileID: 0}
+  statistics: {fileID: 0}
   characterDelay: 0.05
+  characterScale: 0
+  allEffects: []
+  vertexUpdate: 0
+  colorUpdate: 0
 --- !u!114 &2094617727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2478,14 +2486,19 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2094617723}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b0cfa802cf20487eb0930b0985bbffb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   displayText: {fileID: 1754218259}
   statistics: {fileID: 1659992258}
-  characterDelay: 0.05
+  characterDelay: 0.075
+  characterScale: 0
+  allEffects:
+  - {fileID: 11400000, guid: 30d34af388203004d98c9bdfa81d38f0, type: 2}
+  vertexUpdate: 0
+  colorUpdate: 0
 --- !u!114 &2094617728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2498,7 +2511,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d70b35d3e9abec44f800e2f87c8d26f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TextReveal: {fileID: 2094617725}
+  TextReveal: {fileID: 2094617727}
 --- !u!1 &2140351701
 GameObject:
   m_ObjectHideFlags: 0

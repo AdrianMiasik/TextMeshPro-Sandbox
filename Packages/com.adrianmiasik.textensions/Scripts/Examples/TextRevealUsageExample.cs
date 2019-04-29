@@ -2,10 +2,10 @@
 // Personal Portfolio: http://AdrianMiasik.com
 // Github Account: https://github.com/AdrianMiasik
 
-using Text.Reveals.Base;
+using Textensions.Reveals.Base;
 using UnityEngine;
 
-namespace Text.Examples
+namespace Textensions.Examples
 {
 	/// <summary>
 	/// An example class that demonstrates how to use invoke Reveal functions.
