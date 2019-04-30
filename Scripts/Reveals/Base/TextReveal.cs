@@ -14,8 +14,8 @@ namespace Textensions.Reveals.Base
 		[SerializeField] [Tooltip("The text we want to reveal.")]
 		internal TextMeshProUGUI displayText;
 
-		[SerializeField] [Tooltip("The text we will use to display statistics about this character reveal (Number of characters revealed, the delay in-between each character reveal, the current characters reveal time, and the total elapsed time).")]
-		private TextMeshProUGUI statistics;
+		//[SerializeField] [Tooltip("The text we will use to display statistics about this character reveal (Number of characters revealed, the delay in-between each character reveal, the current characters reveal time, and the total elapsed time).")]
+		//private TextMeshProUGUI statistics;
 
 		[SerializeField] [Tooltip("The amount of time (in seconds) between each character reveal.")]
 		protected float characterDelay = 0.05f;
@@ -40,10 +40,6 @@ namespace Textensions.Reveals.Base
 		public bool vertexUpdate = false;
 		public bool colorUpdate = false;
 		
-		// TODO: 
-		// Bool for update mesh verts
-		// Bool for update mesh colors
-		
 		protected virtual void RevealCharacter(int index)
 		{
 			AllCharacters[index].IsRevealed = true;
@@ -61,47 +57,14 @@ namespace Textensions.Reveals.Base
 		{
 			// Quickly Fetch References.
 			displayText = GetComponent<TextMeshProUGUI>();
-			statistics = GetComponent<TextMeshProUGUI>();
+			//statistics = GetComponent<TextMeshProUGUI>();
 		}
 
-		private void Awake()
-		{
-			// If displayText is null...
-			if (displayText == null)
-			{
-				// Attempt to assign
-				displayText = GetComponent<TextMeshProUGUI>();
-
-#if DEBUG_TEXT
-				// Assign failed...
-				if (displayText == null)
-				{
-					Debug.LogAssertion("No TextMeshProUGUI component found. (" + this.GetType() + ")", gameObject);
-				}
-#endif
-			}
-		}
 
 		private void Start()
 		{
-			if (!displayText)
-			{
-#if DEBUG_TEXT
-				Debug.LogWarning("No TextMeshProUGUI component found.");
-#endif
-			}
-			else
-			{
-				Initialize();
-				_isRevealing = true;
-			}
-
-			if (!statistics)
-			{
-#if DEBUG_TEXT
-				Debug.LogWarning("No TextMeshProUGUI component found.");
-#endif
-			}
+			Initialize();
+			_isRevealing = true;
 		}
 
 		/// <summary>
@@ -217,9 +180,9 @@ namespace Textensions.Reveals.Base
 		/// <summary>
 		/// Updates the statistics UI string.
 		/// </summary>
-		private void UpdateStatisticsText()
+		private void UpdateStatisticsText(TMP_Text text)
 		{
-			statistics.text = "Number of characters revealed: " + _numberOfCharactersRevealed + "/" + _numberOfCharacters + "\n" +
+			text.text = "Number of characters revealed: " + _numberOfCharactersRevealed + "/" + _numberOfCharacters + "\n" +
 			                  "Delay in-between character reveal: " + characterDelay + " seconds.\n" +
 			                  "Current character reveal time: " + _characterTime.ToString("F2") + " seconds.\n" +
 			                  "Elapsed time: " + _totalRevealTime.ToString("F2") + " seconds.\n";
@@ -248,7 +211,7 @@ namespace Textensions.Reveals.Base
 				// If we don't have anything to reveal...
 				if (_numberOfCharacters == 0)
 				{
-					UpdateStatisticsText();
+					//UpdateStatisticsText();
 
 					// Early exit
 					return;
@@ -274,7 +237,7 @@ namespace Textensions.Reveals.Base
 					}
 				}
 
-				UpdateStatisticsText();
+				//UpdateStatisticsText();
 			}
 
 			// Iterate through all the characters
@@ -287,21 +250,19 @@ namespace Textensions.Reveals.Base
 					for (int j = 0; j < allEffects.Count; j++)
 					{
 						// TODO: If calculations are the same for this frame and last, don't scale / update mesh.
-						SetCharacterScale(AllCharacters[i].Info(), allEffects[j].Calculate(AllCharacters[i]));
+						SetCharacterScale(AllCharacters[i], allEffects[j].Calculate(AllCharacters[i]));
 					}
 				}
 				// We don't have any effects to apply, lets just do the regular scale.
 				else
 				{
-					// TODO: Look into TMPro_EventManager and how to only scale on text change
-					SetCharacterScale(AllCharacters[i].Info(), 0);
+					SetCharacterScale(AllCharacters[i], characterScale);
 				}
 			}
 			
 			if (vertexUpdate)
 			{
 				vertexUpdate = false;
-				Debug.Log("Updating mesh");
 				ApplyMeshChanges();
 			}
 		}
@@ -330,19 +291,27 @@ namespace Textensions.Reveals.Base
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="scale"></param>
-		public void SetCharacterScale(TMP_CharacterInfo character, float scale)
+		public void SetCharacterScale(Character character, float scale)
 		{
+			if (character.cachedScale == scale)
+			{
+//				Debug.Log("Skipping");
+				// Cache the scale 
+				character.cachedScale = scale;
+				return;
+			}
+
 			// Skip any characters that aren't visible
-			if (!character.isVisible)
+			if (!character.Info().isVisible)
 				return;
 			
 			// Get the characters material vertices from the texts mesh
-			Vector3[] originalVertices = _originalMesh[character.materialReferenceIndex].vertices;
+			Vector3[] originalVertices = _originalMesh[character.Info().materialReferenceIndex].vertices;
 			
 			// Make a copy of those verts
 			_targetVertices = originalVertices;
 
-			int index = character.vertexIndex;
+			int index = character.Info().vertexIndex;
 			
 			// Locate the center of the mesh (Bottom left + top right) / 2
 			Vector3 characterOrigin = (originalVertices[index + 0] + originalVertices[index + 3]) / 2;
@@ -353,7 +322,7 @@ namespace Textensions.Reveals.Base
 			_targetVertices[index + 1] -= characterOrigin;
 			_targetVertices[index + 2] -= characterOrigin;
 			_targetVertices[index + 3] -= characterOrigin;
-
+			 
 			// Scale the mesh of this character by our factor
 			Matrix4x4 matrix = Matrix4x4.Scale((scale + characterScale) * Vector3.one);
 			_targetVertices[index + 0] = matrix.MultiplyPoint3x4(_targetVertices[index + 0]);
@@ -367,6 +336,7 @@ namespace Textensions.Reveals.Base
 			_targetVertices[index + 2] += characterOrigin;
 			_targetVertices[index + 3] += characterOrigin;
 
+			
 			// Set our vertex update to true so we can update all the vertex data at once instead of numerous times in a single frame.
 			vertexUpdate = true;
 		}

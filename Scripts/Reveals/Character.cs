@@ -3,6 +3,7 @@
 // Github Account: https://github.com/AdrianMiasik
 
 using TMPro;
+using UnityEngine;
 
 namespace Textensions.Reveals
 {
@@ -11,6 +12,7 @@ namespace Textensions.Reveals
 		public float timeSinceReveal;
 		public bool IsRevealed = false;
 		private TMP_CharacterInfo _info;
+		public float cachedScale;
 
 		public Character(TMP_CharacterInfo info)
 		{
